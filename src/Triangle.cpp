@@ -7,5 +7,5 @@
  */
 glm::vec3 intersection(Ray ray) {
     // TODO: implement Möller-Trumbore
-    return null;
+    return glm::vec3(-1);
 }
