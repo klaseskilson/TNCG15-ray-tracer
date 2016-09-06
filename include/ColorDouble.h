@@ -5,17 +5,10 @@
 
 class ColorDouble {
 public:
-    ColorDouble() {
-        ColorDouble(0.0);
-    };
-    ColorDouble(double value) {
-        ColorDouble(glm::vec4((float) value));
-    };
+    ColorDouble() : ColorDouble(0.0) {};
+    ColorDouble(double value) : ColorDouble(glm::vec4((float) value)) {};
     ColorDouble(glm::vec4 color) {
         this->color = color;
-    };
-    ColorDouble(ColorDouble &colorDouble) {
-        ColorDouble(colorDouble.getColor());
     };
     glm::vec4 getColor() {
         return this->color;

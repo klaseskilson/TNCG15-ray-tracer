@@ -5,7 +5,7 @@ set(SOURCE_DIR "src")
 set(INCLUDE_DIR "include")
 set(BIN_DIR "../bin")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 FILE(GLOB SOURCE_FILES ${SOURCE_DIR}/*.cpp)
 FILE(GLOB HEADER_FILES ${INCLUDE_DIR}/*.h)

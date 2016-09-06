@@ -1,12 +1,15 @@
 #ifndef TNCG15_PIXEL_H
 #define TNCG15_PIXEL_H
 
+#include <memory>
+#include <list>
 #include "ColorDouble.h"
+#include "Ray.h"
 
 class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble());
-    void addRay(Ray &ray);
+    void addRay(std::unique_ptr<Ray>);
 private:
     std::list<std::unique_ptr<Ray>> rayList;
     ColorDouble colorDouble;
