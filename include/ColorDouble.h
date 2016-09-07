@@ -1,20 +1,8 @@
 #ifndef TNCG15_COLORDOUBLE_H
 #define TNCG15_COLORDOUBLE_H
 
-#include <glm/vec4.hpp>
+#include <glm/vec3.hpp>
 
-class ColorDouble {
-public:
-    ColorDouble() : ColorDouble(0.0) {};
-    ColorDouble(double value) : ColorDouble(glm::vec4((float) value)) {};
-    ColorDouble(glm::vec4 color) {
-        this->color = color;
-    };
-    glm::vec4 getColor() {
-        return this->color;
-    };
-private:
-    glm::vec4 color;
-};
+class ColorDouble : glm::vec3 {};
 
 #endif //TNCG15_COLORDOUBLE_H
