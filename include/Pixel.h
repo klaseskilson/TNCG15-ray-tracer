@@ -9,9 +9,9 @@
 class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble());
-    void addRay(std::unique_ptr<Ray>);
+    void addRay(std::shared_ptr<Ray>);
 private:
-    std::list<std::unique_ptr<Ray>> rayList;
+    std::list<std::shared_ptr<Ray>> rayList;
     ColorDouble colorDouble;
 };
 
