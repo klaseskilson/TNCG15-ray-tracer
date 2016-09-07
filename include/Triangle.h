@@ -4,6 +4,8 @@
 #include <array>
 #include <glm/vec3.hpp>
 #include "Ray.h"
+#include "ColorDouble.h"
+#include "Direction.h"
 
 class Triangle {
 public:
@@ -13,6 +15,8 @@ public:
     glm::vec3 intersection(Ray);
 private:
     std::array<glm::vec3, 3> positions;
+    ColorDouble color;
+    Direction normal;
 };
 
 #endif //TNCG15_TRIANGLE_H
