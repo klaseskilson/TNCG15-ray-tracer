@@ -9,7 +9,6 @@ public:
     Ray();
     Ray(glm::vec3 start, glm::vec3 end);
     ~Ray() {};
-    static glm::vec3 NotFound;
 private:
     glm::vec3 start, end;
     ColorDouble color;

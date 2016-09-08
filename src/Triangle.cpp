@@ -5,7 +5,7 @@
  * @param ray
  * @return glm::vec3 if found, otherwise null
  */
-glm::vec3 Triangle::intersection(Ray ray) {
+glm::vec3 *Triangle::intersection(Ray ray) {
     // TODO: implement Möller-Trumbore
-    return Ray::NotFound;
+    return nullptr;
 }
