@@ -10,6 +10,7 @@ class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble());
     void addRay(std::shared_ptr<Ray>);
+    const ColorDouble &getColorDouble() const;
 private:
     std::list<std::shared_ptr<Ray>> rayList;
     ColorDouble colorDouble;

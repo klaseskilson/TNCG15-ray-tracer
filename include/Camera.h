@@ -1,11 +1,10 @@
-//
-// Created by Carl Englund on 06/09/16.
-//
-
 #ifndef TNCG15_CAMERA_H
 #define TNCG15_CAMERA_H
 
 #include <array>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
 #include "Pixel.h"
 
 const int WIDTH = 1000;
@@ -16,7 +15,7 @@ public:
     Camera() {};
     ~Camera() {};
     void render();
-    void createImage();
+    void createImage(std::string filename = "rayTracedImage.ppm");
 
 private:
     //2D 1000x1000 array of type Pixel

@@ -7,3 +7,7 @@ Pixel::Pixel(ColorDouble colorDouble) {
 void Pixel::addRay(std::shared_ptr<Ray> ray) {
     this->rayList.push_back(ray);
 }
+
+const ColorDouble &Pixel::getColorDouble() const {
+    return colorDouble;
+}

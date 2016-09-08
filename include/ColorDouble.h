@@ -3,6 +3,9 @@
 
 #include <glm/vec3.hpp>
 
-class ColorDouble : glm::vec3 {};
+class ColorDouble : glm::vec3 {
+public:
+    void getRgb(unsigned char colorArray[]);
+};
 
 #endif //TNCG15_COLORDOUBLE_H
