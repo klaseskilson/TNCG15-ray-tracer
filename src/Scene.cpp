@@ -4,26 +4,35 @@
 void Scene::createScene() {
     //Create some triangles that form the room
 	//Floor
-	std::array<glm::vec3, 3> floor {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(0.0f, -6.0f, -5.0f), glm::vec3(10.0f, -6.0f, -5.0f)};	
-	std::array<glm::vec3, 3> floor {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(10.0f, 6.0f, 5.0f)};	
-	std::array<glm::vec3, 3> floor {glm::vec3(-3.0f, 0.0f, -5.0f), glm::vec3(0.0f, -6.0f, -5.0f), glm::vec3(0.0f, 6.0f, -5.0f)};	
-	std::array<glm::vec3, 3> floor {glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(13.0f, 0.0f, -5.0f), glm::vec3(10.0f, 6.0f, -5.0f)};	
-	//Right side back
-	std::array<glm::vec3, 3> rightSideBack {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Left Side back
-	std::array<glm::vec3, 3> leftSideBack {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Left Side front
-	std::array<glm::vec3, 3> leftSideFront {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Right Side front
-	std::array<glm::vec3, 3> rightSideFront {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Front
-	std::array<glm::vec3, 3> backSide {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Back
-	std::array<glm::vec3, 3> frontSide {glm::vec3( 10, 0, 0),glm::vec3( 10, 0, 0), glm::vec3( 10, 0, 0)};	
-	//Floor
-	Triangle floorTriangles {floor};
+	std::array<glm::vec3, 3> floor1 {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(0.0f, -6.0f, -5.0f), glm::vec3(10.0f, -6.0f, -5.0f)};	
+	std::array<glm::vec3, 3> floor2 {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(10.0f, 6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> floor3 {glm::vec3(-3.0f, 0.0f, -5.0f), glm::vec3(0.0f, -6.0f, -5.0f), glm::vec3(0.0f, 6.0f, -5.0f)};	
+	std::array<glm::vec3, 3> floor4 {glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(13.0f, 0.0f, -5.0f), glm::vec3(10.0f, 6.0f, -5.0f)};	
 	//Roof
-	//Walls
+	std::array<glm::vec3, 3> roof1 {glm::vec3(0.0f, 6.0f, 5.0f),glm::vec3(0.0f, -6.0f, 5.0f), glm::vec3(10.0f, -6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> roof2 {glm::vec3(0.0f, 6.0f, 5.0f),glm::vec3(10.0f, -6.0f, 5.0f), glm::vec3(10.0f, 6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> roof3 {glm::vec3(-3.0f, 0.0f, 5.0f), glm::vec3(0.0f, -6.0f, 5.0f), glm::vec3(0.0f, 6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> roof4 {glm::vec3(10.0f, -6.0f, 5.0f), glm::vec3(13.0f, 0.0f, 5.0f), glm::vec3(10.0f, 6.0f, 5.0f)};
+	//Right side back
+	std::array<glm::vec3, 3> rightSideBack1 {glm::vec3(10.0f, 6.0f, -5.0f),glm::vec3(13.0f, 0.0f, -5.0f), glm::vec3(13.0f, 0.0f, 5.0f)};	
+	std::array<glm::vec3, 3> rightSideBack2 {glm::vec3(13.0f, 0.0f, 5.0f),glm::vec3(10.0f, 6.0f, 5.0f), glm::vec3(10.0f, 6.0f, -5.0f)};	
+	std::array<glm::vec3, 3> rightSideBack3 {glm::vec3(13.0f, 0.0f, 5.0f),glm::vec3(10.0f, -6.0f, 5.0f), glm::vec3(13.0f, 0.0f, 5.0f)};	
+	std::array<glm::vec3, 3> rightSideBack4 {glm::vec3(13.0f, 0.0f, -5.0f),glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(10.0f, -6.0f, 5.0f)};	
+	//Left Side back
+	std::array<glm::vec3, 3> leftSideBack1 {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(0.0f, 6.0f, 5.0f), glm::vec3(-3.0f, 0.0f, 5.0f)};	
+	std::array<glm::vec3, 3> leftSideBack2 {glm::vec3(0.0f, 6.0f, -5.0f),glm::vec3(-3.0f, 0.0f, 5.0f), glm::vec3(-3.0f, 0.0f, -5.0f)};	
+	std::array<glm::vec3, 3> leftSideBack3 {glm::vec3(-3.0f, 0.0f, -5.0f),glm::vec3(-3.0f, 0.0f, 5.0f), glm::vec3(0.0f, -6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> leftSideBack4 {glm::vec3(-3.0f, 0.0f, -5.0f),glm::vec3(0.0f, -6.0f, 5.0f), glm::vec3(0.0f, -6.0f, -5.0f)};	
+	//Left Side front
+	std::array<glm::vec3, 3> WallFront1 {glm::vec3(0.0f, -6.0f, -5.0f),glm::vec3(10.0f, -6.0f, -5.0f), glm::vec3(0.0f, -6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> WallFront2 {glm::vec3(10.0f, -6.0f, -5.0f),glm::vec3(10.0f, -6.0f, 5.0f), glm::vec3(0.0f, -6.0f, 5.0f)};	
+
+	std::array<glm::vec3, 3> WallBack1 {glm::vec3(0.0f, 6.0f, 5.0f),glm::vec3(10.0f, 6.0f, -5.0f), glm::vec3(0.0f, 6.0f, 5.0f)};	
+	std::array<glm::vec3, 3> WallBack2 {glm::vec3(10.0f, 6.0f, -5.0f),glm::vec3(10.0f, 6.0f, 5.0f), glm::vec3(0.0f, 6.0f, 5.0f)};	
+
+	
+	//Triangle floorTriangles {floor};
+
 	
 }
 
