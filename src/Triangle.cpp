@@ -12,59 +12,59 @@ Triangle::Triangle(glm::vec3 &a, glm::vec3 &b, glm::vec3 &c) {
  * @param ray
  * @return glm::vec3 if found, otherwise null
  */
-glm::vec3 *Triangle::intersection(Ray& ray) {
+int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     // TODO: implement Möller-Trumbore
-    glm::vec3 e1{0.0f, 0.0f, 0.0f};
-    glm::vec3 e2{0.0f, 0.0f, 0.0f};
-    glm::vec3 P{0.0f, 0.0f, 0.0f};
+    glm::vec3 edge1{0.0f, 0.0f, 0.0f};
+    glm::vec3 edge2{0.0f, 0.0f, 0.0f};
+    glm::vec3 edgeNormal{0.0f, 0.0f, 0.0f};
     glm::vec3 Q{0.0f, 0.0f, 0.0f};
-    glm::vec3 T{0.0f, 0.0f, 0.0f};
+    glm::vec3 distance;
 
-    float T = 0;
-    float determinant = 0;
-    float inverted_determinant = 0;
-    float U = 0;
-    float V = 0;
+    float determinant = 0.0f;
+    float inverted_determinant = 0.0f;
+    float T = 0.0f;
+    float U = 0.0f;
+    float V = 0.0f;
 
     glm::vec3 endRay = glm::normalize(ray.returnEndRay());
     glm::vec3 startRay = glm::normalize(ray.returnStartRay());
+    glm::vec3 direction = endRay - startRay;
 
-    e1 = std::get<1>(positions) - std::get<0>(positions);
-    e2 = std::get<2>(positions) - std::get<0>(positions);
+    edge1 = positions[1] - positions[0];
+    edge2 = positions[2] - positions[0];
 
-    P = glm::cross(endRay, e2);
+    edgeNormal = glm::cross(direction, edge2);
+    determinant = dot(edge1, edgeNormal);
 
-    determinant = (e1.x*P.x)+(e1.y*P.y)+(e1.z+P.z);
-
-
-
-    if (determinant > -EPSILON && determinant < EPSILON)
-        return nullptr;
+    if (std::abs(determinant) < EPSILON)
+        return NOT_INTERSECTION;
 
     inverted_determinant = 1.0f / determinant;
 
-    T = glm::distance(ray.returnStartRay(),std::get<0>(positions));
+    // calculate distance from first vertex to ray origin
+    distance = ray.returnStartRay() - positions[0];
 
-    U = glm::dot(T, P) * inverted_determinant;
+    U = dot(distance, edgeNormal) * inverted_determinant;
 
-    if(U < 0.f || U > 1.f)
-        return nullptr;
+    if (U < 0.f || U > 1.f)
+        return NOT_INTERSECTION;
 
-    Q = glm::cross(T, e1);
+    Q = glm::cross(distance, edge1);
 
-    V = glm::dot(endRay, Q) * inverted_determinant;
+    V = dot(endRay, Q) * inverted_determinant;
 
-    if(V < 0.f || U + V  > 1.f)
-        return nullptr;
+    if (V < 0.f || U + V  > 1.f)
+        return NOT_INTERSECTION;
 
-    T = glm::dot(e2, Q) * determinant;
-
-    if(T > EPSILON) {
-        return T;
+    T = dot(edge2, Q) * determinant;
+    if (T > EPSILON) {
+        intersection = distance;
+        return INTERSECTION;
     }
 
+    return NOT_INTERSECTION;
+}
 
-
-
-    return nullptr;
+float Triangle::dot(const glm::vec3 &a, const glm::vec3 &b) {
+    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }

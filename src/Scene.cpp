@@ -37,13 +37,16 @@ void Scene::createScene() {
 }
 
 std::list<Triangle> Scene::detectIntersections(Ray ray) {
-    std::list<Triangle> intersections = {};
-    for (Triangle t : this->triangles) {
-        glm::vec3 *intersection = t.intersection(ray);
-        if (intersection != nullptr) {
+    std::list<Triangle> intersectingTriangles = {};
+	std::list<glm::vec3> intersectionVertices = {};
+    for (Triangle t : triangles) {
+        glm::vec3 intersection;
+		int result = t.intersection(ray, intersection);
+        if (result == INTERSECTION) {
             // intersection found, add it to some sort of list etc
-            intersections.push_back(t);
+            intersectingTriangles.push_back(t);
+			intersectionVertices.push_back(intersection);
         }
     }
-    return intersections;
+    return intersectingTriangles;
 };
