@@ -12,6 +12,7 @@ public:
     Triangle(std::array<glm::vec3, 3> positions) {
         this->positions = positions;
     }
+    Triangle(glm::vec3&, glm::vec3&, glm::vec3&);
     glm::vec3 *intersection(Ray&);
 
 private:
