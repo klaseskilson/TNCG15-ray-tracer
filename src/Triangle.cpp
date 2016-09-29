@@ -5,6 +5,11 @@ Triangle::Triangle(glm::vec3 &a, glm::vec3 &b, glm::vec3 &c) {
     positions[0] = a;
     positions[1] = b;
     positions[2] = c;
+
+    // set normal
+    glm::vec3 ab = glm::normalize(b - a);
+    glm::vec3 bc = glm::normalize(c - b);
+    normal = glm::cross(ab, bc);
 }
 
 /**
