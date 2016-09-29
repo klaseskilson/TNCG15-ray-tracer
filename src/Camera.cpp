@@ -17,8 +17,7 @@ void Camera::createImage(std::string filename) {
     for (auto row : pixels) {
         for (Pixel pixel : row) {
             ColorDouble clr = pixel.getColorDouble();
-            static unsigned char color[3];
-            clr.getRgb(color);
+            int color[3] = {(int)(256 * clr.r), (int)(256 * clr.g), (int)(256 * clr.b)};
             (void) fwrite(color, 1, 3, fp);
         }
     }

@@ -16,7 +16,7 @@ public:
     void createScene();
     std::list<Triangle> detectIntersections(Ray ray);
 private:
-    std::array<Triangle, 24> triangles;
+    std::array<Triangle, 20> triangles;
 };
 
 
