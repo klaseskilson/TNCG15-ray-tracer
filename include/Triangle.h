@@ -12,8 +12,10 @@ const int NOT_INTERSECTION = 0;
 
 class Triangle {
 public:
-    Triangle(std::array<glm::vec3, 3> positions) {
+    Triangle(std::array<glm::vec3, 3> positions, ColorDouble color) {
         this->positions = positions;
+        this->color = color;
+
     }
     Triangle(glm::vec3&, glm::vec3&, glm::vec3&);
     int intersection(Ray&, glm::vec3&);
