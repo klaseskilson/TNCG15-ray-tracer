@@ -22,7 +22,6 @@ private:
     std::array<glm::vec3, 3> positions;
     ColorDouble color;
     Direction normal;
-    float dot(const glm::vec3&, const glm::vec3&);
 };
 
 #endif //TNCG15_TRIANGLE_H

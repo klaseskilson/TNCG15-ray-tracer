@@ -34,7 +34,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     edge2 = positions[2] - positions[0];
 
     edgeNormal = glm::cross(direction, edge2);
-    determinant = dot(edge1, edgeNormal);
+    determinant = glm::dot(edge1, edgeNormal);
 
     if (std::abs(determinant) < EPSILON)
         return NOT_INTERSECTION;
@@ -44,27 +44,23 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     // calculate distance from first vertex to ray origin
     distance = ray.returnStartRay() - positions[0];
 
-    U = dot(distance, edgeNormal) * inverted_determinant;
+    U = glm::dot(distance, edgeNormal) * inverted_determinant;
 
     if (U < 0.f || U > 1.f)
         return NOT_INTERSECTION;
 
     Q = glm::cross(distance, edge1);
 
-    V = dot(endRay, Q) * inverted_determinant;
+    V = glm::dot(endRay, Q) * inverted_determinant;
 
     if (V < 0.f || U + V  > 1.f)
         return NOT_INTERSECTION;
 
-    T = dot(edge2, Q) * determinant;
+    T = glm::dot(edge2, Q) * determinant;
     if (T > EPSILON) {
         intersection = distance;
         return INTERSECTION;
     }
 
     return NOT_INTERSECTION;
-}
-
-float Triangle::dot(const glm::vec3 &a, const glm::vec3 &b) {
-    return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 }
