@@ -12,11 +12,13 @@ const int HEIGHT = 1000;
 
 class Camera {
 public:
-    Camera() {};
+    Camera(bool cameraPosition) {eyeBeingUsed = cameraPosition;};
     ~Camera() {};
     void render();
     void createImage(std::string filename = "rayTracedImage.ppm");
-
+    //TODO: Updated with different camera positions.
+    glm::vec3 firstCameraPosition() {return glm::vec3(0.0f, 0.0f, 0.0f);}
+    glm::vec3 secondCameraPosition() {return glm::vec3(0.0f, 0.0f, 0.0f);}
 private:
     //2D 1000x1000 array of type Pixel
     //Two instances of vertex one for each eye
