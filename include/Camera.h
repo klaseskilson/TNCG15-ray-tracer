@@ -24,5 +24,6 @@ private:
 
     std::array<std::array<Pixel, HEIGHT>, WIDTH> pixels;
     glm::vec3 position1, position2;
+    bool eyeBeingUsed;
 };
 #endif //TNCG15_CAMERA_H
