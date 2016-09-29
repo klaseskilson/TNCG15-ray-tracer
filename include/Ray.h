@@ -11,8 +11,10 @@ public:
     ~Ray() {};
     glm::vec3 returnStartRay() {return start;};
     glm::vec3 returnEndRay() {return end;};
+    glm::vec3 getDirection() {return direction;};
 private:
     glm::vec3 start, end;
+    glm::vec3 direction;
     ColorDouble color;
 };
 

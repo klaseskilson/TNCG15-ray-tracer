@@ -15,6 +15,7 @@ public:
     Triangle(const std::array<glm::vec3, 3> p) : Triangle(p[0], p[1], p[2], color) {};
     Triangle(const glm::vec3&, const glm::vec3&, const glm::vec3&, const ColorDouble &color = ColorDouble(0.0f));
     int intersection(Ray&, glm::vec3&);
+    int sphereIntersection(Ray&, glm::vec3&);
 
 private:
     std::array<glm::vec3, 3> positions;
