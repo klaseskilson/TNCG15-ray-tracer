@@ -8,12 +8,12 @@ Triangle::Triangle(glm::vec3 &a, glm::vec3 &b, glm::vec3 &c) {
 }
 
 /**
- * find intersection of ray and triangle
+ * find intersection of ray and triangle using Möller-Trumbore
  * @param ray
- * @return glm::vec3 if found, otherwise null
+ * @param intersection the returned intersection, if found.
+ * @return INTERSECTION if found, NOT_INTERSECTION otherwise
  */
 int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
-    // TODO: implement Möller-Trumbore
     glm::vec3 edge1{0.0f, 0.0f, 0.0f};
     glm::vec3 edge2{0.0f, 0.0f, 0.0f};
     glm::vec3 edgeNormal{0.0f, 0.0f, 0.0f};
