@@ -1,7 +1,3 @@
-//
-// Created by Carl Englund on 06/09/16.
-//
-
 #ifndef TNCG15_SCENE_H
 #define TNCG15_SCENE_H
 

@@ -3,10 +3,11 @@
 
 void Scene::createScene() {
 // View from above:
-// ^ = camera and viewing direction (origo)
+// ^ = camera 1 and viewing direction (origo)
+// v = camera 2 and viewing direction
 //           a
 //          / \   <-- front
-// LEFT    b   c     RIGHT
+// LEFT    b v c     RIGHT
 //         |   |  <-- center
 //         d ^ e
 //          \ /   <-- back
