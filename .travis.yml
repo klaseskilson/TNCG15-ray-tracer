@@ -1,8 +1,14 @@
-dist: trusty
 language: cpp
+os:
+  - linux
+  - osx
+dist: trusty
 compiler:
   - clang
   - gcc
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libglm-dev
 script:
   - cd build
   - cmake ..
