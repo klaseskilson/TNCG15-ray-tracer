@@ -5,20 +5,20 @@
 #include "Box.h"
 
 
-void Box::createBox() {
+void Box::createBox(glm::vec3 position, float length) {
 
     //Vertices needs to be adapted to room positions.
-    glm::vec3 frontUpperRight(5.0f, 5.0f, 5.0f), frontBottomRight(5.0f, 2.5f, 5.0f);
-    glm::vec3 frontBottomLeft(2.5f, 2.5f, 5.0f), frontUpperLeft(2.5f, 5.0f, 5.0f);
-    glm::vec3 backUpperLeft(5.0f, 5.0f, 2.5f), backUpperRight(2.5f, 5.0f, 2.5f);
-    glm::vec3 backBottomRight(5.0f, 2.5f, 2.5f), backBottomLeft(2.5f, 2.5f, 2.5f);
+    glm::vec3 frontUpperRight(position.x+length, position.y+length, position.z+length), frontBottomRight(position.x+length, position.y, position.z+length);
+    glm::vec3 frontBottomLeft(position.x, position.y, position.z+length), frontUpperLeft(position.x, position.y+length, position.z+length);
+    glm::vec3 backUpperLeft(position.x+length, position.y+length, position.z), backUpperRight(position.x, position.y+length, position.z);
+    glm::vec3 backBottomRight(position.x+length, position.y, position.z), backBottomLeft(position.x, position.y, position.z);
     
-    const ColorDouble Red(255.0f, 0.0f, 0.0f);
-    const ColorDouble Green(0.0f, 255.0f, 0.0f);
-    const ColorDouble Blue(0.0f, 0.0f, 255.0f);
-    const ColorDouble Yellow(255.0f, 255.0f, 0.0f);
-    const ColorDouble Purple(255.0f, 0.0f, 255.0f);
-    const ColorDouble Teal(0.0f, 255.0f, 255.0f);
+    const ColorDouble Red(1.0f, 0.0f, 0.0f);
+    const ColorDouble Green(0.0f, 1.0f, 0.0f);
+    const ColorDouble Blue(0.0f, 0.0f, 1.0f);
+    const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
+    const ColorDouble Purple(1.0f, 0.0f, 1.0f);
+    const ColorDouble Teal(0.0f, 1.0f, 1.0f);
 
     //Box floor
     triangles[0] = Triangle(frontBottomRight, backBottomRight, frontBottomLeft, Red) ;

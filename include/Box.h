@@ -9,7 +9,7 @@
 
 class Box {
 public:
-    void createBox();
+    void createBox(glm::vec3 position, float length);
 private:
     std::array<Triangle, 12> triangles;
 
