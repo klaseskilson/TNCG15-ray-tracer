@@ -5,9 +5,9 @@
 
 typedef glm::vec3 ColorDouble;
 
-class ColorDouble : glm::vec3 {
-public:
-    void getRgb(unsigned char colorArray[]);
-};
+//class ColorDouble : glm::vec3 {
+//public:
+//    void getRgb(unsigned char colorArray[]);
+//};
 
 #endif //TNCG15_COLORDOUBLE_H

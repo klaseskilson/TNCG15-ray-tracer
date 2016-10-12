@@ -13,12 +13,12 @@ void Box::createBox() {
     glm::vec3 backUpperLeft(5.0f, 5.0f, 2.5f), backUpperRight(2.5f, 5.0f, 2.5f);
     glm::vec3 backBottomRight(5.0f, 2.5f, 2.5f), backBottomLeft(2.5f, 2.5f, 2.5f);
     
-    const ColorDouble Red = new ColorDouble(255.0f, 0.0f, 0.0f);
-    const ColorDouble Green = new ColorDouble(0.0f, 255.0f, 0.0f);
-    const ColorDouble Blue = new ColorDouble(0.0f, 0.0f, 255.0f);
-    const ColorDouble Yellow = new ColorDouble(255.0f, 255.0f, 0.0f);
-    const ColorDouble Purple = new ColorDouble(255.0f, 0.0f, 255.0f);
-    const ColorDouble Teal = new ColorDouble(0.0f, 255.0f, 255.0f);
+    const ColorDouble Red(255.0f, 0.0f, 0.0f);
+    const ColorDouble Green(0.0f, 255.0f, 0.0f);
+    const ColorDouble Blue(0.0f, 0.0f, 255.0f);
+    const ColorDouble Yellow(255.0f, 255.0f, 0.0f);
+    const ColorDouble Purple(255.0f, 0.0f, 255.0f);
+    const ColorDouble Teal(0.0f, 255.0f, 255.0f);
 
     //Box floor
     triangles[0] = Triangle(frontBottomRight, backBottomRight, frontBottomLeft, Red) ;
