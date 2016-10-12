@@ -5,13 +5,14 @@
 #ifndef TNCG15_BOX_H
 #define TNCG15_BOX_H
 
+#include <vector>
 #include "Triangle.h"
 
 class Box {
 public:
     void createBox(glm::vec3 position, float length);
 private:
-    std::array<Triangle, 12> triangles;
+    std::vector<Triangle> triangles;
 
 };
 

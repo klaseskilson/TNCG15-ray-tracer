@@ -21,22 +21,22 @@ void Box::createBox(glm::vec3 position, float length) {
     const ColorDouble Teal(0.0f, 1.0f, 1.0f);
 
     //Box floor
-    triangles[0] = Triangle(frontBottomRight, backBottomRight, frontBottomLeft, Red) ;
-    triangles[1] = Triangle(frontBottomRight, frontBottomLeft, backBottomLeft, Red);
+    triangles.push_back(Triangle(frontBottomRight, backBottomRight, frontBottomLeft, Red));
+    triangles.push_back(Triangle(frontBottomRight, frontBottomLeft, backBottomLeft, Red));
     //Box Front
-    triangles[2] = Triangle(frontBottomRight, frontUpperRight, frontUpperLeft, Green);
-    triangles[3] = Triangle(frontBottomRight, frontBottomLeft, frontUpperLeft, Green);
+    triangles.push_back(Triangle(frontBottomRight, frontUpperRight, frontUpperLeft, Green));
+    triangles.push_back(Triangle(frontBottomRight, frontBottomLeft, frontUpperLeft, Green));
     //Box Right Side
-    triangles[4] = Triangle(frontUpperRight, frontBottomRight, backBottomRight, Blue);
-    triangles[5] = Triangle(frontUpperRight, backUpperRight, backBottomRight, Blue);
+    triangles.push_back(Triangle(frontUpperRight, frontBottomRight, backBottomRight, Blue));
+    triangles.push_back(Triangle(frontUpperRight, backUpperRight, backBottomRight, Blue));
     //Box Left Side
-    triangles[6] = Triangle(frontUpperLeft, frontBottomLeft, backBottomLeft, Yellow);
-    triangles[7] = Triangle(frontUpperLeft, backUpperLeft, backBottomLeft, Yellow);
+    triangles.push_back(Triangle(frontUpperLeft, frontBottomLeft, backBottomLeft, Yellow));
+    triangles.push_back(Triangle(frontUpperLeft, backUpperLeft, backBottomLeft, Yellow));
     //Box Back Side
-    triangles[8] = Triangle(backBottomRight, backUpperRight, backUpperLeft, Purple);
-    triangles[9] = Triangle(backBottomRight, backBottomLeft, backUpperLeft, Purple);
+    triangles.push_back(Triangle(backBottomRight, backUpperRight, backUpperLeft, Purple));
+    triangles.push_back(Triangle(backBottomRight, backBottomLeft, backUpperLeft, Purple));
     //Box Roof
-    triangles[10] = Triangle(frontUpperRight, backUpperRight, backUpperLeft, Teal) ;
-    triangles[11] = Triangle(frontUpperRight, frontUpperLeft, backUpperLeft, Teal);
+    triangles.push_back(Triangle(frontUpperRight, backUpperRight, backUpperLeft, Teal));
+    triangles.push_back(Triangle(frontUpperRight, frontUpperLeft, backUpperLeft, Teal));
 
 }
