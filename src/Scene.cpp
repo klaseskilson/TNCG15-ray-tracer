@@ -17,19 +17,19 @@ void Scene::createScene() {
 //    |
 //    |----> x
 
-    glm::vec3 aBottom(0.0f, 0.0f, 5.0f), aTop(0.0f, 5.0f, 5.0f);
-    glm::vec3 bBottom(-2.5f, 0.0f, 2.5f), bTop(-2.5f, 5.0f, 2.5f);
-    glm::vec3 cBottom(2.5f, 0.0f, 2.5f), cTop(2.5f, 5.0f, 2.5f);
-    glm::vec3 dBottom(-2.5f, 0.0f, 0.0f), dTop(-2.5f, 5.0f, 0.0f);
-    glm::vec3 eBottom(2.5f, 0.0f, 0.0f), eTop(2.5f, 5.0f, 0.0f);
-    glm::vec3 fBottom(2.5f, 0.0f, -2.5f), fTop(2.5f, 5.0f, -2.5f);
+    glm::vec3 aBottom(0.0f, -5.0f, 13.0f), aTop(0.0f, 5.0f, 13.0f);
+    glm::vec3 bBottom(-6.0f, -5.0f, 10.0f), bTop(-6.0f, 5.0f, 10.0f);
+    glm::vec3 cBottom(6.0f, -5.0f, 10.0f), cTop(6.0f, 5.0f, 10.0f);
+    glm::vec3 dBottom(-6.0f, -5.0f, 0.0f), dTop(-6.0f, 5.0f, 0.0f);
+    glm::vec3 eBottom(6.0f, -5.0f, 0.0f), eTop(6.0f, 5.0f, 0.0f);
+    glm::vec3 fBottom(0.0f, -5.0f, -3.0f), fTop(0.0f, 5.0f, -3.0f);
 
-    const ColorDouble Red(255.0f, 0.0f, 0.0f);
-    const ColorDouble Green(0.0f, 255.0f, 0.0f);
-    const ColorDouble Blue(0.0f, 0.0f, 255.0f);
-    const ColorDouble Yellow(255.0f, 255.0f, 0.0f);
-    //const ColorDouble Teal(0.0f, 255.0f, 255.0f);
-    const ColorDouble Purple(255.0f, 0.0f, 255.0f);
+    const ColorDouble Red(1.0f, 0.0f, 0.0f);
+    const ColorDouble Green(0.0f, 1.0f, 0.0f);
+    const ColorDouble Blue(0.0f, 0.0f, 1.0f);
+    const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
+    //const ColorDouble Teal(0.0f, 1.0f, 1.0f);
+    const ColorDouble Purple(1.0f, 0.0f, 1.0f);
 
     // Floor
     triangles[0] = Triangle(bBottom, cBottom, aBottom, Red);
