@@ -28,13 +28,13 @@ void Camera::createImage(std::string filename) {
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
 
     int count = 0, total = WIDTH * HEIGHT;
-    std::cout << "Processing:     ";
     (void) fprintf(fp, "P6\n%d %d\n255\n", WIDTH, HEIGHT);
     for (auto row : pixels) {
         for (Pixel pixel : row) {
             // print progress
             float progress = 100.0f * (float)count / total;
-//            std::cout << "\r" << std::setprecision(5) << progress << "%";
+//            std::cout << "\r" << std::setw(7);
+//            std::cout << std::setprecision(5) << progress << "%";
             std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // get color
@@ -47,7 +47,7 @@ void Camera::createImage(std::string filename) {
     }
     (void) fclose(fp);
 
-    std::cout << std::endl << "Wrote image to `" + filename + "`.";
+    std::cout << std::endl << "Wrote image to `" + filename + "`." << std::endl;
 }
 
 Ray Camera::getRayFromPixelCoords(const int w, const int h) {

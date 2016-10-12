@@ -31,28 +31,28 @@ void Scene::createScene() {
     //const ColorDouble Teal(0.0f, 255.0f, 255.0f);
     const ColorDouble Purple(255.0f, 0.0f, 255.0f);
 
-	// Floor
-	triangles[0] = Triangle(bBottom, cBottom, aBottom, Red);
-	triangles[1] = Triangle(bBottom, dBottom, cBottom, Red);
-	triangles[2] = Triangle(dBottom, eBottom, cBottom, Red);
-	triangles[3] = Triangle(dBottom, fBottom, eBottom, Red);
-	// Roof
-	triangles[4] = Triangle(bTop, aTop, cTop, Green);
-	triangles[5] = Triangle(bTop, cTop, dTop, Green);
-	triangles[6] = Triangle(dTop, cTop, eTop, Green);
-	triangles[7] = Triangle(dTop, eTop, fTop, Green);
-	// Right side back
-	triangles[8] = Triangle(fBottom, fTop, eTop, Blue);
-	triangles[9] = Triangle(fBottom, eTop, eBottom, Blue);
-	// Left side back
+    // Floor
+    triangles[0] = Triangle(bBottom, cBottom, aBottom, Red);
+    triangles[1] = Triangle(bBottom, dBottom, cBottom, Red);
+    triangles[2] = Triangle(dBottom, eBottom, cBottom, Red);
+    triangles[3] = Triangle(dBottom, fBottom, eBottom, Red);
+    // Roof
+    triangles[4] = Triangle(bTop, aTop, cTop, Green);
+    triangles[5] = Triangle(bTop, cTop, dTop, Green);
+    triangles[6] = Triangle(dTop, cTop, eTop, Green);
+    triangles[7] = Triangle(dTop, eTop, fTop, Green);
+    // Right side back
+    triangles[8] = Triangle(fBottom, fTop, eTop, Blue);
+    triangles[9] = Triangle(fBottom, eTop, eBottom, Blue);
+    // Left side back
     triangles[10] = Triangle(dBottom, dTop, fTop, Blue);
     triangles[11] = Triangle(dBottom, fTop, fBottom, Blue);
     // Left side center
     triangles[12] = Triangle(bBottom, bTop, dTop, Yellow);
     triangles[13] = Triangle(bBottom, dTop, dBottom, Yellow);
-	// Left side front
-	triangles[14] = Triangle(aBottom, aTop, bTop, Purple);
-	triangles[15] = Triangle(aBottom, bTop, bBottom, Purple);
+	  // Left side front
+	  triangles[14] = Triangle(aBottom, aTop, bTop, Purple);
+	  triangles[15] = Triangle(aBottom, bTop, bBottom, Purple);
     // Right side front
     triangles[16] = Triangle(cBottom, cTop, aTop, Purple);
     triangles[17] = Triangle(cBottom, aTop, aBottom, Purple);
@@ -63,14 +63,14 @@ void Scene::createScene() {
 
 std::list<Triangle> Scene::detectIntersections(Ray ray) {
     std::list<Triangle> intersectingTriangles = {};
-	std::list<glm::vec3> intersectionVertices = {};
+	  std::list<glm::vec3> intersectionVertices = {};
     for (Triangle t : triangles) {
         glm::vec3 intersection;
-		int result = t.intersection(ray, intersection);
+		    int result = t.intersection(ray, intersection);
         if (result == INTERSECTION) {
             // intersection found, add it to some sort of list etc
             intersectingTriangles.push_back(t);
-			intersectionVertices.push_back(intersection);
+			      intersectionVertices.push_back(intersection);
         }
     }
     return intersectingTriangles;
