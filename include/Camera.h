@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "Pixel.h"
+#include "Scene.h"
 
 typedef std::pair<glm::vec3, glm::vec3> CameraPos;
 
@@ -21,7 +22,7 @@ class Camera {
 public:
     Camera(bool cameraPosition = true);
     ~Camera() {};
-    void createImage(std::string filename = "rayTracedImage.ppm");
+    void createImage(Scene&, std::string filename = "rayTracedImage.ppm");
     void setFov(float fov);
 
 private:

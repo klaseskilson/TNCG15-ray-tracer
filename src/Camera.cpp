@@ -11,7 +11,7 @@ void Camera::createPixels() {
         for (int w = 0; w < WIDTH; ++w) {
             Pixel p(ColorDouble(0.0f));
             Ray r = getRayFromPixelCoords(w, h);
-            p.addRay(r);
+            p.setRay(r);
             pixels[h][w] = p;
         }
     }
@@ -23,7 +23,7 @@ void Camera::createPixels() {
  *
  * @param filename the name of the file to write to
  */
-void Camera::createImage(std::string filename) {
+void Camera::createImage(Scene &scene, std::string filename) {
     std::cout << "Creating image..." << std::endl;
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
 
@@ -33,12 +33,13 @@ void Camera::createImage(std::string filename) {
         for (Pixel pixel : row) {
             // print progress
             float progress = 100.0f * (float)count / total;
-//            std::cout << "\r" << std::setw(7);
-//            std::cout << std::setprecision(5) << progress << "%";
-            std::cout << std::setprecision(5) << progress << "%" << std::endl;
+            std::cout << "\r" << std::setw(7);
+            std::cout << std::setprecision(5) << progress << "%";
+//            std::cout << std::setprecision(5) << progress << "%" << std::endl;
+//            std::list<Triangle> t = scene.detectIntersections(pixel.getRay());
 
             // get color
-            ColorDouble clr = pixel.getColorDouble();
+            ColorDouble clr = glm::normalize(pixel.getColorDouble(scene));
             int color[3] = {(int)(256 * clr.r), (int)(256 * clr.g), (int)(256 * clr.b)};
             (void) fwrite(color, 1, 3, fp);
 
@@ -65,6 +66,6 @@ CameraPos Camera::getCamera() {
     return eyeBeingUsed ? CAMERA_POS_1 : CAMERA_POS_2;
 }
 
-void Camera::setFov(float fov) {
-    fov = fov;
+void Camera::setFov(float f) {
+    fov = f;
 }

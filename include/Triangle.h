@@ -17,6 +17,8 @@ public:
     int intersection(Ray&, glm::vec3&);
     int sphereIntersection(Ray&, glm::vec3&);
 
+    const ColorDouble &getColor() const;
+
 private:
     std::array<glm::vec3, 3> positions;
     ColorDouble color;

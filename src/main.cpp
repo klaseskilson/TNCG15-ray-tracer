@@ -5,7 +5,8 @@
 
 int main() {
     Camera *cam = new Camera(true);
-    cam->createImage();
+    Scene s;
+    cam->createImage(s);
     delete cam;
     return 0;
 }

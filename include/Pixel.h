@@ -5,14 +5,18 @@
 #include <list>
 #include "ColorDouble.h"
 #include "Ray.h"
+#include "Scene.h"
 
 class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble());
-    void addRay(Ray&);
-    const ColorDouble &getColorDouble() const;
+    ColorDouble getColorDouble(Scene&);
+
+    void setRay(Ray &);
+    Ray getRay();
+
 private:
-    std::list<Ray> rayList;
+    Ray ray;
     ColorDouble colorDouble;
 };
 

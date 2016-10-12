@@ -3,16 +3,17 @@
 
 #include <array>
 #include <list>
+#include <vector>
 #include "Triangle.h"
 #include "Ray.h"
 
 class Scene {
 public:
-    //Should probably not be void..
-    void createScene();
+    Scene();
+    void createRoom();
     std::list<Triangle> detectIntersections(Ray ray);
 private:
-    std::array<Triangle, 20> triangles;
+    std::vector<Triangle> triangles;
 };
 
 

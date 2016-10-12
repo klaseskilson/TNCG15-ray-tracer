@@ -1,13 +1,21 @@
 #include "Pixel.h"
 
-Pixel::Pixel(ColorDouble colorDouble) {
-    this->colorDouble = colorDouble;
+Pixel::Pixel(ColorDouble colorDbl) {
+    colorDouble = colorDbl;
 }
 
-void Pixel::addRay(Ray &ray) {
-    this->rayList.push_back(ray);
+void Pixel::setRay(Ray &r) {
+    ray = r;
 }
 
-const ColorDouble &Pixel::getColorDouble() const {
+ColorDouble Pixel::getColorDouble(Scene &scene) {
+    std::list<Triangle> t = scene.detectIntersections(ray);
+    if (t.size() > 0) {
+        colorDouble += t.front().getColor();
+    }
     return colorDouble;
+}
+
+Ray Pixel::getRay() {
+    return ray;
 }
