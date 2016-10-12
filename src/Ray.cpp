@@ -1,11 +1,11 @@
 #include "Ray.h"
 
 Ray::Ray() {
-    this->end = glm::vec3(0.0);
-    this->start = glm::vec3(0.0);
+    start = glm::vec3(0.0);
+    direction = glm::vec3(0.0);
 }
 
-Ray::Ray(glm::vec3 start, glm::vec3 end) {
-    this->end = end;
-    this->start = start;
+Ray::Ray(glm::vec3 s, glm::vec3 d) {
+    start = s;
+    direction = d;
 }

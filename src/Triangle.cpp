@@ -32,9 +32,9 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     float U = 0.0f;
     float V = 0.0f;
 
-    glm::vec3 endRay = glm::normalize(ray.returnEndRay());
-    glm::vec3 startRay = glm::normalize(ray.returnStartRay());
-    glm::vec3 direction = endRay - startRay;
+    glm::vec3 startRay = glm::normalize(ray.getStart());
+    glm::vec3 direction = glm::normalize(ray.getDirection());
+    glm::vec3 endRay = startRay + direction;
 
     edge1 = positions[1] - positions[0];
     edge2 = positions[2] - positions[0];
@@ -48,7 +48,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     inverted_determinant = 1.0f / determinant;
 
     // calculate distance from first vertex to ray origin
-    distance = ray.returnStartRay() - positions[0];
+    distance = ray.getStart() - positions[0];
 
     U = glm::dot(distance, edgeNormal) * inverted_determinant;
 
@@ -73,7 +73,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
 
 int sphereIntersection(Ray& ray, glm::vec3& intersection) {
     glm::vec3 l = glm::normalize(ray.getDirection());
-    glm::vec3 O = ray.returnStartRay();
+    glm::vec3 O = ray.getStart();
 
 
 }
