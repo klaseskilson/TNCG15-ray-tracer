@@ -21,6 +21,7 @@ void Camera::createPixels() {
  * How to write to a PPM-image from:
  * https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C
  *
+ * @param scene the scene to take the image of
  * @param filename the name of the file to write to
  */
 void Camera::createImage(Scene &scene, std::string filename) {
@@ -32,11 +33,9 @@ void Camera::createImage(Scene &scene, std::string filename) {
     for (auto row : pixels) {
         for (Pixel pixel : row) {
             // print progress
-            float progress = 100.0f * (float)count / total;
-            std::cout << "\r" << std::setw(7);
-            std::cout << std::setprecision(5) << progress << "%";
+//            float progress = 100.0f * (float)count / total;
+//            std::cout << "\r" << std::setw(7) << std::setprecision(5) << progress << "%";
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
-//            std::list<Triangle> t = scene.detectIntersections(pixel.getRay());
 
             // get color
             ColorDouble clr = glm::normalize(pixel.getColorDouble(scene));
@@ -53,7 +52,7 @@ void Camera::createImage(Scene &scene, std::string filename) {
 
 Ray Camera::getRayFromPixelCoords(const int w, const int h) {
     CameraPos c = getCamera();
-    double pw = (double)w / WIDTH, ph = (double)w / HEIGHT;
+    double pw = (double)w / WIDTH, ph = (double)h / HEIGHT;
     double angleW = pw * fov - fov / 2, angleH = ph * fov - fov / 2;
     glm::vec3 viewDirection = glm::normalize(c.second - c.first);
     double diffW = sin(angleW), diffH = sin(angleH);
