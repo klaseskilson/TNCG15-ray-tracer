@@ -52,12 +52,13 @@ void Camera::createImage(Scene &scene, std::string filename) {
 
 Ray Camera::getRayFromPixelCoords(const int w, const int h) {
     CameraPos c = getCamera();
+    double fovRad = fov * M_PI / 180.0;
     double pw = (double)w / WIDTH, ph = (double)h / HEIGHT;
-    double angleW = pw * fov - fov / 2, angleH = ph * fov - fov / 2;
-    glm::vec3 viewDirection = glm::normalize(c.second - c.first);
-    double diffW = cos(angleW), diffH = sin(angleH);
+    double radW = pw * fovRad - fovRad / 2, radH = ph * fovRad - fovRad / 2;
+    double diffW = sin(radW), diffH = sin(radH);
     glm::vec3 diff(diffW, diffH, 0.0f);
-    Ray ray(c.first, glm::normalize(viewDirection + diff));
+    glm::vec3 viewDirection = glm::normalize(c.second - c.first);
+    Ray ray(c.first, viewDirection + diff);
     return ray;
 };
 
