@@ -15,9 +15,9 @@ const int WIDTH = 1000;
 const int HEIGHT = 1000;
 
 const CameraPos CAMERA_POS_1 (glm::vec3(0.0f, 2.5f, 0.0f),
-                              glm::vec3(0.0f, 2.5f, 1.0f));
+                              glm::vec3(0.0f, 0.0f, 1.0f));
 const CameraPos CAMERA_POS_2 (glm::vec3(0.0f, 2.5f, 2.5f),
-                              glm::vec3(0.0f, 2.5f, 0.0f));
+                              glm::vec3(0.0f, 0.0f, -1.0f));
 
 class Camera {
 public:
@@ -33,8 +33,8 @@ private:
     Ray getRayFromPixelCoords(const int w, const int h);
     //2D 1000x1000 array of type Pixel
     std::array<std::array<Pixel, HEIGHT>, WIDTH> pixels;
-    // FOV in degrees
-    float fov = 120.0f;
+    // FOV in radians
+    float fov = M_PI / 3.0f;
     //A bool to flip between the eye
     bool eyeBeingUsed;
 };
