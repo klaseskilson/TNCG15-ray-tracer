@@ -55,7 +55,7 @@ Ray Camera::getRayFromPixelCoords(const int w, const int h) {
     double pw = (double)w / WIDTH, ph = (double)h / HEIGHT;
     double angleW = pw * fov - fov / 2, angleH = ph * fov - fov / 2;
     glm::vec3 viewDirection = glm::normalize(c.second - c.first);
-    double diffW = sin(angleW), diffH = sin(angleH);
+    double diffW = cos(angleW), diffH = sin(angleH);
     glm::vec3 diff(diffW, diffH, 0.0f);
     Ray ray(c.first, glm::normalize(viewDirection + diff));
     return ray;
