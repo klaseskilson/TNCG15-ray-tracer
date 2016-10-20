@@ -28,6 +28,8 @@ public:
 
 private:
     void createPixels();
+    double castRays(Scene&);
+    void writeToFile(const std::string, const double&);
     //Two instances of vertex one for each eye
     CameraPos getCamera();
     Ray getRayFromPixelCoords(const int w, const int h);
@@ -35,7 +37,7 @@ private:
     std::array<std::array<Pixel, HEIGHT>, WIDTH> pixels;
     // FOV in radians
     float fov = M_PI / 2.0f;
-    //A bool to flip between the eye
+    //A bool to flip between the cameras
     bool eyeBeingUsed;
 };
 #endif //TNCG15_CAMERA_H

@@ -10,13 +10,13 @@
 class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble(0.0f));
-    ColorDouble getColorDouble(Scene&);
+    ColorDouble castRay(Scene &);
+    void addRay(Ray &);
 
-    void setRay(Ray &);
-    Ray getRay();
+    const ColorDouble &getColorDouble() const;
 
 private:
-    Ray ray;
+    std::vector<Ray> rayList;
     ColorDouble colorDouble;
 };
 
