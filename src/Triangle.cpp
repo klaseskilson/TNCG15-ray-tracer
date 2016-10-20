@@ -61,7 +61,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     // Prepare to test v parameter
     Q = glm::cross(distance, edge1);
     // Calculate V parameter and test bound
-    V = glm::dot(endRay, Q) * inverted_determinant;
+    V = glm::dot(direction, Q) * inverted_determinant;
     // The intersection lies outside of the triangle
     if (V < 0.f || U + V  > 1.f)
         return NOT_INTERSECTION;
