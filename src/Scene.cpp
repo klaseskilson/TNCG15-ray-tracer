@@ -34,23 +34,25 @@ void Scene::createRoom() {
     const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
     //const ColorDouble Teal(0.0f, 1.0f, 1.0f);
     const ColorDouble Purple(1.0f, 0.0f, 1.0f);
+    const ColorDouble White(1.0f, 1.0f, 1.0f);
+    const ColorDouble Grey(0.5f);
 
     // Floor
-    triangles.push_back(Triangle(bBottom, cBottom, aBottom, Red));
-    triangles.push_back(Triangle(bBottom, dBottom, cBottom, Red));
-    triangles.push_back(Triangle(dBottom, eBottom, cBottom, Red));
-    triangles.push_back(Triangle(dBottom, fBottom, eBottom, Red));
+    triangles.push_back(Triangle(bBottom, cBottom, aBottom, White));
+    triangles.push_back(Triangle(bBottom, dBottom, cBottom, White));
+    triangles.push_back(Triangle(dBottom, eBottom, cBottom, White));
+    triangles.push_back(Triangle(dBottom, fBottom, eBottom, White));
     // Roof
-    triangles.push_back(Triangle(bTop, aTop, cTop, Green));
-    triangles.push_back(Triangle(bTop, cTop, dTop, Green));
-    triangles.push_back(Triangle(dTop, cTop, eTop, Green));
-    triangles.push_back(Triangle(dTop, eTop, fTop, Green));
+    triangles.push_back(Triangle(bTop, aTop, cTop, Grey));
+    triangles.push_back(Triangle(bTop, cTop, dTop, Grey));
+    triangles.push_back(Triangle(dTop, cTop, eTop, Grey));
+    triangles.push_back(Triangle(dTop, eTop, fTop, Grey));
     // Right side back
     triangles.push_back(Triangle(fBottom, fTop, eTop, Blue));
     triangles.push_back(Triangle(fBottom, eTop, eBottom, Blue));
     // Left side back
-    triangles.push_back(Triangle(dBottom, dTop, fTop, Blue));
-    triangles.push_back(Triangle(dBottom, fTop, fBottom, Blue));
+    triangles.push_back(Triangle(dBottom, dTop, fTop, Yellow));
+    triangles.push_back(Triangle(dBottom, fTop, fBottom, Yellow));
     // Left side center
     triangles.push_back(Triangle(bBottom, bTop, dTop, Yellow));
     triangles.push_back(Triangle(bBottom, dTop, dBottom, Yellow));
@@ -61,8 +63,8 @@ void Scene::createRoom() {
     triangles.push_back(Triangle(cBottom, cTop, aTop, Purple));
     triangles.push_back(Triangle(cBottom, aTop, aBottom, Purple));
     // Right side center
-    triangles.push_back(Triangle(eBottom, eTop, cTop, Yellow));
-    triangles.push_back(Triangle(eBottom, cTop, cBottom, Yellow));
+    triangles.push_back(Triangle(eBottom, eTop, cTop, Blue));
+    triangles.push_back(Triangle(eBottom, cTop, cBottom, Blue));
 }
 
 std::list<Triangle> Scene::detectIntersections(Ray ray) {
