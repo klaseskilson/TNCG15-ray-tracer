@@ -34,7 +34,7 @@ private:
     //2D 1000x1000 array of type Pixel
     std::array<std::array<Pixel, HEIGHT>, WIDTH> pixels;
     // FOV in radians
-    float fov = M_PI / 3.0f;
+    float fov = M_PI / 2.0f;
     //A bool to flip between the eye
     bool eyeBeingUsed;
 };

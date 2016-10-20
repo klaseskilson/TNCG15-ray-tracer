@@ -18,8 +18,7 @@ void Camera::createPixels() {
 }
 
 /**
- * How to write to a PPM-image from:
- * https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C
+ * Write PPM image
  *
  * @param scene the scene to take the image of
  * @param filename the name of the file to write to
@@ -29,7 +28,7 @@ void Camera::createImage(Scene &scene, std::string filename) {
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
 
     int count = 0, total = WIDTH * HEIGHT;
-    (void) fprintf(fp, "P6\n%d %d\n255\n", WIDTH, HEIGHT);
+    (void) fprintf(fp, "P3\n%d %d\n255\n", WIDTH, HEIGHT);
     for (auto row : pixels) {
         for (Pixel pixel : row) {
             // print progress
@@ -38,10 +37,11 @@ void Camera::createImage(Scene &scene, std::string filename) {
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // get color
-            ColorDouble clr = glm::normalize(pixel.getColorDouble(scene));
-            int color[3] = {(int)(255 * clr.r), (int)(255 * clr.g), (int)(255 * clr.b)};
-            (void) fwrite(color, 1, 3, fp);
-
+            ColorDouble clr = pixel.getColorDouble(scene);
+            (void) fprintf(fp, "%d %d %d ",
+                           (int)(255 * clr.r),
+                           (int)(255 * clr.g),
+                           (int)(255 * clr.b));
             count += 1;
         }
     }
