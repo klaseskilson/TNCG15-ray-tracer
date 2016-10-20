@@ -82,4 +82,5 @@ const ColorDouble &Triangle::getColor() const {
 int sphereIntersection(Ray& ray, glm::vec3& intersection) {
     glm::vec3 l = glm::normalize(ray.getDirection());
     glm::vec3 O = ray.getStart();
+    return NOT_INTERSECTION;
 }

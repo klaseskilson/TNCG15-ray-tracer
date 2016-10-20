@@ -25,31 +25,39 @@ void Camera::createPixels() {
  */
 void Camera::createImage(Scene &scene, std::string filename) {
     std::cout << "Creating image..." << std::endl;
-    double max = castRays(scene);
+    ColorDouble max = castRays(scene);
     writeToFile(filename, max);
     std::cout << "DONE!" << std::endl;
 }
 
-double Camera::castRays(Scene &scene) {
+/**
+ * send rays into scnee
+ * @param scene the scene
+ * @return the maximum intensity found
+ */
+ColorDouble Camera::castRays(Scene &scene) {
+    ColorDouble max(0.0f);
     std::cout << "Casting rays..." << std::endl;
     int count = 0, total = WIDTH * HEIGHT;
     for (auto &row : pixels) {
         for (Pixel &pixel : row) {
-            // print progress
+            // calculate progress
             float progress = 100.0f * (float)count / total;
+            // pring progress (use one of the two lines)
 //            std::cout << "\r" << std::setw(7) << std::setprecision(5) << progress << "%";
-            std::cout << std::setprecision(5) << progress << "%" << std::endl;
+//            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // cast ray for this pixel
-            pixel.castRay(scene);
+            ColorDouble clr = pixel.castRay(scene);
+            max = glm::max(max, clr);
             count += 1;
         }
     }
 
-    return 0.0;
+    return max;
 }
 
-void Camera::writeToFile(const std::string filename, const double &max) {
+void Camera::writeToFile(const std::string filename, const ColorDouble &max) {
     std::cout << "Writing image..." << std::endl;
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
     (void) fprintf(fp, "P3\n%d %d\n255\n", WIDTH, HEIGHT);
@@ -57,9 +65,9 @@ void Camera::writeToFile(const std::string filename, const double &max) {
         for (Pixel &pixel : row) {
             ColorDouble clr = pixel.getColorDouble();
             (void) fprintf(fp, "%d %d %d ",
-                           (int)(255 * clr.r),
-                           (int)(255 * clr.g),
-                           (int)(255 * clr.b));
+                           (int)(255 * (clr.r / max.r)),
+                           (int)(255 * (clr.g / max.g)),
+                           (int)(255 * (clr.b / max.b)));
         }
     }
     (void) fclose(fp);

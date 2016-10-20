@@ -2,10 +2,9 @@
 #define TNCG15_TRIANGLE_H
 
 #include <array>
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 #include "Ray.h"
-#include "ColorDouble.h"
-#include "Direction.h"
+#include "definitions.h"
 
 const int INTERSECTION = 1;
 const int NOT_INTERSECTION = 0;

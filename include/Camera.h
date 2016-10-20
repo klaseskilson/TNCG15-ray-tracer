@@ -28,8 +28,8 @@ public:
 
 private:
     void createPixels();
-    double castRays(Scene&);
-    void writeToFile(const std::string, const double&);
+    ColorDouble castRays(Scene&);
+    void writeToFile(const std::string, const ColorDouble&);
     //Two instances of vertex one for each eye
     CameraPos getCamera();
     Ray getRayFromPixelCoords(const int w, const int h);

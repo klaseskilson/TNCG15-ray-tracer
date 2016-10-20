@@ -1,8 +1,8 @@
 #ifndef TNCG15_RAY_H
 #define TNCG15_RAY_H
 
+#include "definitions.h"
 #include <glm/glm.hpp>
-#include "ColorDouble.h"
 
 class Ray {
 public:

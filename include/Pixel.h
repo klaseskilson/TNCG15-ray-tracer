@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <list>
-#include "ColorDouble.h"
+#include "definitions.h"
 #include "Ray.h"
 #include "Scene.h"
 
