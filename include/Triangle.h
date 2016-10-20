@@ -19,12 +19,19 @@ public:
     int intersection(Ray&, glm::vec3&);
     int sphereIntersection(Ray&, glm::vec3&);
 
+    glm::vec3 calcNormal() { return glm::normalize(glm::cross(edge1(), edge2())); }
+
+    const glm::vec3 &getNormal() const;
+
     const ColorDouble &getColor() const;
 
 private:
     std::array<glm::vec3, 3> positions;
     ColorDouble color;
-    Direction normal;
+    glm::vec3 normal;
+
+    glm::vec3 edge1() { return positions[1] - positions[0]; }
+    glm::vec3 edge2() { return positions[2] - positions[0]; }
 };
 
 #endif //TNCG15_TRIANGLE_H

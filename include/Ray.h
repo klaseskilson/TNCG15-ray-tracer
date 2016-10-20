@@ -9,8 +9,8 @@ public:
     Ray();
     Ray(glm::vec3 start, glm::vec3 direction);
     ~Ray() {};
-    glm::vec3 getStart() {return start;};
-    glm::vec3 getDirection() {return direction;};
+    glm::vec3 getStart() const {return start;};
+    glm::vec3 getDirection() const {return direction;};
 private:
     glm::vec3 start, direction;
     ColorDouble color = ColorDouble(0.0f);

@@ -78,6 +78,10 @@ const ColorDouble &Triangle::getColor() const {
     return color;
 }
 
+const glm::vec3 &Triangle::getNormal() const {
+    return normal;
+}
+
 int sphereIntersection(Ray& ray, glm::vec3& intersection) {
     glm::vec3 l = glm::normalize(ray.getDirection());
     glm::vec3 O = ray.getStart();
