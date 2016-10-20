@@ -71,7 +71,6 @@ void Scene::createRoom() {
 }
 
 void Scene::createBox(glm::vec3 position, float length) {
-
     glm::vec3 frontUpperRight(position.x+length, position.y+length, position.z+length),
               frontBottomRight(position.x+length, position.y, position.z+length);
     glm::vec3 frontBottomLeft(position.x, position.y, position.z+length),
@@ -117,17 +116,19 @@ void Scene::createBox(glm::vec3 position, float length) {
     triangles.push_back(Triangle(frontUpperRight, frontUpperLeft, backUpperLeft, Teal));
 
 }
-std::list<Triangle> Scene::detectIntersections(Ray ray) {
-    std::list<Triangle> intersectingTriangles = {};
-    std::list<glm::vec3> intersectionVertices = {};
-    for (Triangle t : triangles) {
+
+std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
+    std::list<TriangleIntersection> intersections = {};
+    for (Triangle triangle : triangles) {
+        TriangleIntersection ti;
         glm::vec3 intersection;
-        int result = t.intersection(ray, intersection);
+        int result = triangle.intersection(ray, intersection);
         if (result == INTERSECTION) {
-            // intersection found, add it to some sort of list etc
-            intersectingTriangles.push_back(t);
-            intersectionVertices.push_back(intersection);
+            // intersection found, add it to the list of intersections
+            ti.t = triangle;
+            ti.point = intersection;
+            intersections.push_back(ti);
         }
     }
-    return intersectingTriangles;
+    return intersections;
 };

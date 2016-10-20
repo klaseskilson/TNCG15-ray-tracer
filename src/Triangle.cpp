@@ -1,5 +1,4 @@
 #include "Triangle.h"
-#define EPSILON 0.00000000000000001
 
 Triangle::Triangle(const glm::vec3 &a, const glm::vec3 &b, const glm::vec3 &c, const ColorDouble &theColor) {
     positions[0] = a;

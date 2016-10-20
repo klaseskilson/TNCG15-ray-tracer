@@ -11,8 +11,8 @@
 
 typedef std::pair<glm::vec3, glm::vec3> CameraPos;
 
-const int WIDTH = 100;
-const int HEIGHT = 100;
+const int WIDTH = 200;
+const int HEIGHT = 200;
 
 const CameraPos CAMERA_POS_1 (glm::vec3(0.0f, 2.5f, 0.0f),
                               glm::vec3(0.0f, 0.0f, 1.0f));

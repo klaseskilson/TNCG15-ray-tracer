@@ -7,12 +7,17 @@
 #include "Triangle.h"
 #include "Ray.h"
 
+struct TriangleIntersection {
+    Triangle t;
+    glm::vec3 point;
+};
+
 class Scene {
 public:
     Scene();
     void createRoom();
     void createBox(glm::vec3 position, float length);
-    std::list<Triangle> detectIntersections(Ray ray);
+    std::list<TriangleIntersection> detectIntersections(Ray ray);
 private:
     std::vector<Triangle> triangles;
 };

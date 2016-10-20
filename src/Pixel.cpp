@@ -5,10 +5,10 @@ Pixel::Pixel(ColorDouble colorDbl) {
 }
 
 ColorDouble Pixel::castRay(Scene &scene) {
-    std::list<Triangle> triangles = scene.detectIntersections(rayList[0]);
+    std::list<TriangleIntersection> intersections = scene.detectIntersections(rayList[0]);
     // this is wrong, do not use every triangle that is hit!
-    for (Triangle &t : triangles) {
-        colorDouble += t.getColor();
+    for (TriangleIntersection &intersection : intersections) {
+        colorDouble += intersection.t.getColor();
         // TODO: remove this break, use proper way of collecting colors from collisions
         break;
     }
