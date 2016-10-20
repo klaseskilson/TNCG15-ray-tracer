@@ -4,6 +4,9 @@
 
 #ifndef TNCG15_LIGHT_H
 #define TNCG15_LIGHT_H
+
+#include <glm/vec3.hpp>
+
 class Light {
 public:
     Light();
