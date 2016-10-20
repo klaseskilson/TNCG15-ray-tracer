@@ -9,7 +9,7 @@
 
 class Pixel {
 public:
-    Pixel(ColorDouble colorDouble = ColorDouble());
+    Pixel(ColorDouble colorDouble = ColorDouble(0.0f));
     ColorDouble getColorDouble(Scene&);
 
     void setRay(Ray &);

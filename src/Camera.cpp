@@ -39,7 +39,7 @@ void Camera::createImage(Scene &scene, std::string filename) {
 
             // get color
             ColorDouble clr = glm::normalize(pixel.getColorDouble(scene));
-            int color[3] = {(int)(256 * clr.r), (int)(256 * clr.g), (int)(256 * clr.b)};
+            int color[3] = {(int)(255 * clr.r), (int)(255 * clr.g), (int)(255 * clr.b)};
             (void) fwrite(color, 1, 3, fp);
 
             count += 1;
