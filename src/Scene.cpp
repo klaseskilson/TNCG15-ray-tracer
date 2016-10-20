@@ -3,7 +3,7 @@
 #include "Box.h"
 #include <glm/gtx/rotate_vector.hpp>
 Scene::Scene() {
-    createBox(glm::vec3(0.0f, 1.0f, 5.0f), 2);
+    createBox(glm::vec3(0.0f, -2.0f, 5.0f), 2);
     createRoom();
 
 }
@@ -78,13 +78,13 @@ void Scene::createBox(glm::vec3 position, float length) {
               frontUpperLeft(position.x, position.y+length, position.z+length);
     glm::vec3 backUpperLeft(position.x, position.y+length, position.z+length),
               backUpperRight(position.x+length, position.y, position.z+(length*2));
-    glm::vec3 backBottomRight(position.x+length, position.y, position.z+(length*2)),
+    glm::vec3 backBottomRight(position.x+length, position.y, position.z+(length)),
               backBottomLeft(position.x, position.y, position.z+length);
 
-    frontUpperRight = glm::rotateY(frontUpperRight, (float)M_1_PI/2.f);
-    frontBottomRight = glm::rotateY(frontBottomRight, (float)M_1_PI/2.f);
-    frontBottomLeft = glm::rotateY(frontBottomLeft, (float)M_1_PI/2.f);
-    frontUpperLeft = glm::rotateY(frontUpperLeft, (float)M_1_PI/2.f);
+    frontUpperRight = glm::rotateY(frontUpperRight, (float)M_1_PI/3.f);
+    frontBottomRight = glm::rotateY(frontBottomRight, (float)M_1_PI/3.f);
+    frontBottomLeft = glm::rotateY(frontBottomLeft, (float)M_1_PI/3.f);
+    frontUpperLeft = glm::rotateY(frontUpperLeft, (float)M_1_PI/3.f);
     //backUpperLeft = glm::rotateY(backUpperLeft, (float)M_1_PI/4.f);
     //backUpperRight = glm::rotateY(backUpperRight, (float)M_1_PI/4.f);
     //backBottomRight = glm::rotateY(backBottomRight, (float)M_1_PI/4.f);
