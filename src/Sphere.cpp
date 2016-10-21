@@ -45,6 +45,7 @@ int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
        return INTERSECTION;
    }
 
+   //This will never happen.
    return NOT_INTERSECTION;
 }
 
