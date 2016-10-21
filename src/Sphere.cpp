@@ -1,6 +1,7 @@
 //
 // Created by Carl Englund on 2016-10-20.
 //
+#include <Triangle.h>
 #include "Sphere.h"
 #define EPSILON 0.00000000000000001
 
@@ -13,35 +14,38 @@ Sphere::Sphere(glm::vec3 mPosition, float mRadius, ColorDouble mColor) {
 
 int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
     //Ray offset from sphere center
-    glm::vec3 oc = position - ray.getStart();
-    float b = glm::dot(ray.getDirection()*2.0f, oc);
-    float d1 = -b/2.0f;
-    float d2 = d1;
-    float delta = std::pow(d1, 2) - (glm::dot(oc, oc) - std::pow(radius, 2));
+   glm::vec3 normalizedRayDirection = glm::normalize(ray.getDirection());
+   glm::vec3 rayOrigin = ray.getStart();
+   glm::vec3 sphereCenter = this->position;
+   float sphereRadius = this->radius;
 
-    if(delta < -EPSILON) {
-        return false;
-    }
-    else if( delta > -EPSILON && delta < EPSILON) {
-        intersection = ray.getStart()+d1*ray.getDirection();
-        return true;
-    }
+   float b = glm::dot((2.0f*normalizedRayDirection), (rayOrigin-sphereCenter));
+   float ac = glm::dot(rayOrigin-sphereCenter, rayOrigin-sphereCenter)-glm::pow(sphereRadius, 2);
+   float d1 = -b / 2.0f;
+   float d2 = d1;
+   float bsqrt = glm::pow(d1, 2) - ac;
+   d1 += bsqrt;
+   d2 -= bsqrt;
+   if(bsqrt < EPSILON)
+       return NOT_INTERSECTION;
 
-    float dSqrt = std::sqrt(delta);
+    bsqrt = glm::sqrt(bsqrt);
+   if(d1 <= 0 && d2 <= 0){
+   }
+   else if(d2 < d1) {
+       intersection = rayOrigin + d2*normalizedRayDirection;
+       return INTERSECTION;
+   }
+   else if(d1 < d2) {
+       intersection = rayOrigin + d1*normalizedRayDirection;
+       return INTERSECTION;
+   }
+   else {
+       intersection = rayOrigin + d2*normalizedRayDirection;
+       return INTERSECTION;
+   }
 
-    d1 -= dSqrt;
-    d2 += dSqrt;
-
-    if(d1 > EPSILON) {
-        intersection = ray.getStart()+d1*ray.getDirection();
-        return true;
-    }
-    else if(d2 > EPSILON) {
-        intersection = ray.getStart()+d2*ray.getDirection();
-        return true;
-    }
-
-    return false;
+   return NOT_INTERSECTION;
 }
 
 const ColorDouble &Sphere::getColor() const {

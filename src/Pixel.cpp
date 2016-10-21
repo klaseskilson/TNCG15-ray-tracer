@@ -7,6 +7,7 @@ Pixel::Pixel(ColorDouble colorDbl) {
 ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, int reflections) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
+    std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
     glm::vec3 rayStart = ray.getStart();
 
     // only use the closest ray
@@ -29,6 +30,12 @@ ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, int reflections) {
         // TODO: remove this break, use proper way of collecting colors from collisions
         break;
     }
+
+    if(sphereIntersections.size() > 0) {
+        colorDouble = sphereIntersections.front().getColor();
+    }
+
+
     return colorDouble;
 }
 
