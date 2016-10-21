@@ -6,6 +6,7 @@
 #include <vector>
 #include "Triangle.h"
 #include "Ray.h"
+#include "Sphere.h"
 
 struct TriangleIntersection {
     Triangle t;
@@ -18,8 +19,12 @@ public:
     void createRoom();
     void createBox(glm::vec3 position, float length);
     std::list<TriangleIntersection> detectIntersections(Ray ray);
+    std::list<Sphere> detectSphereIntersections(Ray ray);
+
 private:
     std::vector<Triangle> triangles;
+    std::vector<Sphere> spheres;
+
 };
 
 

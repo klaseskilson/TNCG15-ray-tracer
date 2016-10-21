@@ -2,10 +2,12 @@
 #include "Triangle.h"
 #include "Box.h"
 #include <glm/gtx/rotate_vector.hpp>
-Scene::Scene() {
-    createBox(glm::vec3(0.0f, -2.0f, 5.0f), 2);
-    createRoom();
 
+Scene::Scene() {
+    //createBox(glm::vec3(0.0f, -2.0f, 5.0f), 2);
+    createRoom();
+    Sphere sphere(glm::vec3(0.0f, -2.0f, 5.0f), 2.0f, ColorDouble(0.0f, 1.0f, 0.0f));
+    spheres.push_back(sphere);
 }
 
 void Scene::createRoom() {
@@ -32,7 +34,7 @@ void Scene::createRoom() {
     glm::vec3 fBottom(0.0f, -5.0f, -3.0f), fTop(0.0f, 5.0f, -3.0f);
 
     const ColorDouble Red(1.0f, 0.0f, 0.0f);
-    const ColorDouble Green(0.0f, 1.0f, 0.0f);
+
     const ColorDouble Blue(0.0f, 0.0f, 1.0f);
     const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
     //const ColorDouble Teal(0.0f, 1.0f, 1.0f);
@@ -114,7 +116,6 @@ void Scene::createBox(glm::vec3 position, float length) {
     //Box Roof
     triangles.push_back(Triangle(frontUpperRight, backUpperRight, backUpperLeft, Teal));
     triangles.push_back(Triangle(frontUpperRight, frontUpperLeft, backUpperLeft, Teal));
-
 }
 
 std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
@@ -131,4 +132,16 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
         }
     }
     return intersections;
+};
+
+std::list<Sphere> Scene::detectSphereIntersections(Ray ray) {
+    std::list<Sphere> intersectingSpheres = {};
+    for(Sphere s : spheres) {
+        glm::vec3 intersection;
+        int result = s.sphereIntersection(ray, intersection);
+        if(result == INTERSECTION) {
+            intersectingSpheres.push_back(s);
+        }
+    }
+    return intersectingSpheres;
 };
