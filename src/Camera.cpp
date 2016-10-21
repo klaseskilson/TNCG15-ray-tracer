@@ -48,7 +48,8 @@ ColorDouble Camera::castRays(Scene &scene) {
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // cast ray for this pixel
-            ColorDouble clr = pixel.castRay(scene, pixel.getFirstRay());
+            ColorDouble clr = pixel.castRay(scene, pixel.getFirstRay(), pixel.getColorDouble());
+            pixel.setColorDouble(clr);
             max = glm::max(max, clr);
             count += 1;
         }

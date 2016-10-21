@@ -4,39 +4,49 @@ Pixel::Pixel(ColorDouble colorDbl) {
     colorDouble = colorDbl;
 }
 
-ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, int reflections) {
+ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc, int reflections) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
     glm::vec3 rayStart = ray.getStart();
 
     // only use the closest ray
-    intersections.sort([&rayStart](TriangleIntersection &a, TriangleIntersection &b) {
-        return glm::length(glm::distance(a.point, rayStart)) < glm::length(glm::distance(b.point, rayStart));
+    intersections.sort([&rayStart](const auto &a, const auto &b) {
+        return glm::length(a.point - rayStart) < glm::length(b.point - rayStart);
     });
 
-    // this is wrong, do not use every triangle that is hit!
+    ColorDouble clr(inc);
+
+    // use for-in loop to pluck first intersection, if it exists
     for (TriangleIntersection &intersection : intersections) {
         Triangle t = intersection.t;
-        colorDouble += t.getColor();
 
-        // bounce this array
+        // dE = cos(theta) L dw
+        // dL =
+        // fr = dL(w0)/dE(wi)
+        //
+        // diffuse:
+        // L = fr * pi
+
+        // the rendering equation
+        double angle = glm::angle(ray.getDirection(), t.getNormal());
+        clr += t.getColor() * dvec3(cos(angle));
+
+        // bounce this array, recursive call
         if (reflections > 0) {
             glm::vec3 newDirection = glm::reflect(ray.getDirection(), t.getNormal());
             Ray r(intersection.point, newDirection);
             addRay(r);
-            castRay(scene, r, reflections - 1);
+            clr += castRay(scene, r, clr, reflections - 1);
         }
-        // TODO: remove this break, use proper way of collecting colors from collisions
         break;
     }
 
     if(sphereIntersections.size() > 0) {
-        colorDouble = sphereIntersections.front().getColor();
+        clr = sphereIntersections.front().getColor();
     }
 
-
-    return colorDouble;
+    return clr;
 }
 
 const ColorDouble &Pixel::getColorDouble() const {
@@ -49,4 +59,8 @@ void Pixel::addRay(Ray &r) {
 
 Ray Pixel::getFirstRay() {
     return rayList[0];
+}
+
+void Pixel::setColorDouble(const ColorDouble &colorDouble) {
+    Pixel::colorDouble = colorDouble;
 }

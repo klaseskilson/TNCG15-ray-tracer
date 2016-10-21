@@ -6,13 +6,13 @@
 
 class Ray {
 public:
-    Ray();
-    Ray(glm::vec3 start, glm::vec3 direction);
+    Ray() : Ray(vec3(0.0f), vec3(0.0f)) {};
+    Ray(vec3 start, vec3 direction);
     ~Ray() {};
-    glm::vec3 getStart() const {return start;};
-    glm::vec3 getDirection() const {return direction;};
+    vec3 getStart() const {return start;};
+    vec3 getDirection() const {return direction;};
 private:
-    glm::vec3 start, direction;
+    vec3 start, direction;
     ColorDouble color = ColorDouble(0.0f);
 };
 
