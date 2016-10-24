@@ -125,7 +125,7 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
         int result = triangle.intersection(ray, intersection);
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
-            ti.t = triangle;
+            ti.triangle = triangle;
             ti.point = intersection;
             intersections.push_back(ti);
         }

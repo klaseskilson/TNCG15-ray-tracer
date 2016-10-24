@@ -104,7 +104,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
 
     // use for-in loop to pluck first intersection, if it exists
     for (TriangleIntersection &intersection : intersections) {
-        Triangle t = intersection.t;
+        Triangle t = intersection.triangle;
         // outgoing ray
         Ray out = ray.bounce(intersection.point, t.getNormal());
 

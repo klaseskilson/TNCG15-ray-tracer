@@ -9,7 +9,7 @@
 #include "Sphere.h"
 
 struct TriangleIntersection {
-    Triangle t;
+    Triangle triangle;
     glm::vec3 point;
 };
 
