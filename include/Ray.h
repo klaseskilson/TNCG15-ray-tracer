@@ -8,6 +8,7 @@ class Ray {
 public:
     Ray() : Ray(vec3(0.0f), vec3(0.0f)) {};
     Ray(vec3 start, vec3 direction);
+    Ray bounce(const vec3 &position, const vec3 &normal) const;
     ~Ray() {};
     vec3 getStart() const {return start;};
     vec3 getDirection() const {return direction;};

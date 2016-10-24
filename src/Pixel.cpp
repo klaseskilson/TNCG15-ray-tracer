@@ -4,16 +4,12 @@ Pixel::Pixel(ColorDouble colorDbl) {
     colorDouble = colorDbl;
 }
 
+// TODO: move this mess somehow
 ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc, int reflections) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
     glm::vec3 rayStart = ray.getStart();
-
-    // only use the closest ray
-    intersections.sort([&rayStart](const auto &a, const auto &b) {
-        return glm::length(a.point - rayStart) < glm::length(b.point - rayStart);
-    });
 
     ColorDouble clr(inc);
 
@@ -30,12 +26,12 @@ ColorDouble Pixel::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc,
 
         // the rendering equation
         double angle = glm::angle(ray.getDirection(), t.getNormal());
+        // might be the radiosity
         clr += t.getColor() * dvec3(cos(angle));
 
         // bounce this array, recursive call
         if (reflections > 0) {
-            glm::vec3 newDirection = glm::reflect(ray.getDirection(), t.getNormal());
-            Ray r(intersection.point, newDirection);
+            Ray r = ray.bounce(intersection.point, t.getNormal());
             addRay(r);
             clr += castRay(scene, r, clr, reflections - 1);
         }

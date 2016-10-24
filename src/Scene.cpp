@@ -118,6 +118,11 @@ void Scene::createBox(glm::vec3 position, float length) {
     triangles.push_back(Triangle(frontUpperRight, frontUpperLeft, backUpperLeft, Teal));
 }
 
+/**
+ * detect ray intersection
+ * @param ray
+ * @return list of TriangleIntersections, sorted by distance to ray start
+ */
 std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
     std::list<TriangleIntersection> intersections = {};
     for (Triangle triangle : triangles) {
@@ -131,6 +136,10 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
             intersections.push_back(ti);
         }
     }
+    vec3 rayStart = ray.getStart();
+    intersections.sort([&rayStart](const auto &a, const auto &b) {
+        return glm::length(a.point - rayStart) < glm::length(b.point - rayStart);
+    });
     return intersections;
 };
 
