@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "Triangle.h"
-#include "Box.h"
 #include <glm/gtx/rotate_vector.hpp>
 
 Scene::Scene() {

@@ -1,5 +1,5 @@
-#ifndef TNCG15_TYPEDEFS_H
-#define TNCG15_TYPEDEFS_H
+#ifndef TNCG15_DEFINITIONS_H
+#define TNCG15_DEFINITIONS_H
 
 #include <glm/vec3.hpp>
 #include <stdlib.h>
@@ -9,4 +9,4 @@ typedef glm::dvec3 dvec3;
 typedef glm::dvec3 ColorDouble;
 typedef glm::dvec3 Direction;
 
-#endif //TNCG15_TYPEDEFS_H
+#endif //TNCG15_DEFINITIONS_H

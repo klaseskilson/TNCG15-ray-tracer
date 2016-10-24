@@ -29,14 +29,18 @@ public:
 private:
     void createPixels();
     ColorDouble castRays(Scene&);
+    ColorDouble castRay(Scene &scene, const Ray &ray, const ColorDouble &inc, int reflections = 3);
     void writeToFile(const std::string, const ColorDouble&);
-    //Two instances of vertex one for each eye
+
     CameraPos getCamera();
-    Ray getRayFromPixelCoords(const int w, const int h);
+
     //2D 1000x1000 array of type Pixel
-    std::array<std::array<Pixel, HEIGHT>, WIDTH> pixels;
+    std::array<std::array<Pixel, WIDTH> ,HEIGHT> pixels;
+    Ray getRayFromPixelCoords(const int w, const int h);
+
     // FOV in radians
     float fov = ((float) M_PI) / 2.0f;
+
     //A bool to flip between the cameras
     bool eyeBeingUsed;
 };

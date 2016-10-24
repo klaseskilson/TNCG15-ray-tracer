@@ -11,7 +11,6 @@
 class Pixel {
 public:
     Pixel(ColorDouble colorDouble = ColorDouble(0.0f));
-    ColorDouble castRay(Scene&, const Ray&, const ColorDouble&, int = 3);
 
     void setColorDouble(const ColorDouble &colorDouble);
 
