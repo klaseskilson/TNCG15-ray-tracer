@@ -10,3 +10,7 @@ Ray Ray::bounce(const vec3 &position, const vec3 &normal) const {
     Ray r(position, newDirection);
     return r;
 }
+
+void Ray::setColor(const ColorDouble &clr) {
+    color = clr;
+}

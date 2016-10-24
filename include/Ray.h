@@ -12,6 +12,9 @@ public:
     ~Ray() {};
     vec3 getStart() const {return start;};
     vec3 getDirection() const {return direction;};
+
+    void setColor(const ColorDouble &color);
+
 private:
     vec3 start, direction;
     ColorDouble color = ColorDouble(0.0f);

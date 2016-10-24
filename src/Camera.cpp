@@ -48,7 +48,8 @@ ColorDouble Camera::castRays(Scene &scene) {
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // cast ray for this pixel
-            ColorDouble clr = castRay(scene, pixel.getFirstRay(), pixel.getColorDouble());
+            Ray r = pixel.getFirstRay();
+            ColorDouble clr = castRay(scene, r, pixel.getColorDouble());
             pixel.setColorDouble(clr);
             max = glm::max(max, clr);
             count += 1;
@@ -95,11 +96,10 @@ void Camera::setFov(float f) {
 }
 
 // TODO: split this mess somehow
-ColorDouble Camera::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc, int reflections) {
+ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int reflections) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
-    glm::vec3 rayStart = ray.getStart();
     ColorDouble clr(inc);
 
     // use for-in loop to pluck first intersection, if it exists
@@ -108,9 +108,12 @@ ColorDouble Camera::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc
         // outgoing ray
         Ray out = ray.bounce(intersection.point, t.getNormal());
 
-        clr += t.getSurface().reflect(ray, out);
+        double angle = glm::angle(ray.getDirection(), t.getNormal());
+        ColorDouble emittance = t.getSurface().reflect(out, ray) * cos(angle);
+        ray.setColor(emittance);
+        clr += t.getSurface().reflect(out, ray) * cos(angle);
 
-        // bounce this array, recursive call
+        // decide if we should terminate or not!
         if (reflections > 0) {
 //            addRay(out);
             clr += castRay(scene, out, clr, reflections - 1);

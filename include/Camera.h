@@ -29,7 +29,7 @@ public:
 private:
     void createPixels();
     ColorDouble castRays(Scene&);
-    ColorDouble castRay(Scene &scene, const Ray &ray, const ColorDouble &inc, int reflections = 3);
+    ColorDouble castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int reflections = 3);
     void writeToFile(const std::string, const ColorDouble&);
 
     CameraPos getCamera();
