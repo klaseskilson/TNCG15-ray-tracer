@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <iomanip>
 #include <iostream>
 #include "Pixel.h"
 #include "Scene.h"
+#include "utilities.h"
 
 typedef std::pair<glm::vec3, glm::vec3> CameraPos;
 
@@ -26,10 +28,12 @@ public:
     void createImage(Scene&, std::string filename = "rayTracedImage.ppm");
     void setFov(float fov);
 
+    void setSpp(int spp);
+
 private:
     void createPixels();
     ColorDouble castRays(Scene&);
-    ColorDouble castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int reflections = 3);
+    ColorDouble castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth = 0);
     void writeToFile(const std::string, const ColorDouble&);
 
     CameraPos getCamera();
@@ -43,5 +47,8 @@ private:
 
     //A bool to flip between the cameras
     bool eyeBeingUsed;
+
+    // sample per pixel
+    int spp = 5;
 };
 #endif //TNCG15_CAMERA_H

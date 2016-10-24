@@ -11,6 +11,8 @@ class Surface {
 public:
     Surface(const ColorDouble &color = ColorDouble(0.0)) : color(color) {}
 
+    float getReflectionCoefficient() const;
+
     ColorDouble reflect(const Ray &in, const Ray &out) const;
 
 private:

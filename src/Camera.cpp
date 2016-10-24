@@ -1,4 +1,3 @@
-#include <iomanip>
 #include <Camera.h>
 
 Camera::Camera(bool cameraPosition) {
@@ -48,8 +47,12 @@ ColorDouble Camera::castRays(Scene &scene) {
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // cast ray for this pixel
-            Ray r = pixel.getFirstRay();
-            ColorDouble clr = castRay(scene, r, pixel.getColorDouble());
+            ColorDouble clr(0.0);
+            for (int i = 0; i < spp; ++i) {
+                Ray r = pixel.getFirstRay();
+                clr += castRay(scene, r, pixel.getColorDouble());
+            }
+            clr /= (double) spp;
             pixel.setColorDouble(clr);
             max = glm::max(max, clr);
             count += 1;
@@ -96,7 +99,7 @@ void Camera::setFov(float f) {
 }
 
 // TODO: split this mess somehow
-ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int reflections) {
+ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
@@ -109,14 +112,16 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
         Ray out = ray.bounce(intersection.point, t.getNormal());
 
         double angle = glm::angle(ray.getDirection(), t.getNormal());
-        ColorDouble emittance = t.getSurface().reflect(out, ray) * cos(angle);
+        Surface s = t.getSurface();
+        ColorDouble emittance = s.reflect(out, ray) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
-        clr += t.getSurface().reflect(out, ray) * cos(angle);
+        clr += emittance;
 
         // decide if we should terminate or not!
-        if (reflections > 0) {
+        double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
+        if (depth < 5 || uniformRand() < rrTop) {
 //            addRay(out);
-            clr += castRay(scene, out, clr, reflections - 1);
+            clr += castRay(scene, out, clr, depth + 1);
         }
         break;
     }
@@ -126,4 +131,8 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
     }
 
     return clr;
+}
+
+void Camera::setSpp(int spp) {
+    Camera::spp = spp;
 }
