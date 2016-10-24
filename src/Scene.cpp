@@ -31,14 +31,14 @@ void Scene::createRoom() {
     glm::vec3 eBottom(6.0f, -5.0f, 0.0f), eTop(6.0f, 5.0f, 0.0f);
     glm::vec3 fBottom(0.0f, -5.0f, -3.0f), fTop(0.0f, 5.0f, -3.0f);
 
-    const ColorDouble Red(1.0f, 0.0f, 0.0f);
-
-    const ColorDouble Blue(0.0f, 0.0f, 1.0f);
-    const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
-    //const ColorDouble Teal(0.0f, 1.0f, 1.0f);
-    const ColorDouble Purple(1.0f, 0.0f, 1.0f);
-    const ColorDouble White(1.0f, 1.0f, 1.0f);
-    const ColorDouble Grey(0.5f);
+    const Surface White(ColorDouble(1.0f));
+    const Surface Grey(ColorDouble(0.5f));
+    const Surface Red(ColorDouble(1.0f, 0.0f, 0.0f));
+    const Surface Green(ColorDouble(0.0f, 1.0f, 0.0f));
+    const Surface Blue(ColorDouble(0.0f, 0.0f, 1.0f));
+    const Surface Yellow(ColorDouble(1.0f, 1.0f, 0.0f));
+    const Surface Purple(ColorDouble(1.0f, 0.0f, 1.0f));
+    const Surface Teal(ColorDouble(0.0f, 1.0f, 1.0f));
 
     // Floor
     triangles.push_back(Triangle(bBottom, cBottom, aBottom, White));
@@ -84,17 +84,13 @@ void Scene::createBox(glm::vec3 position, float length) {
     frontBottomRight = glm::rotateY(frontBottomRight, (float)M_1_PI/3.f);
     frontBottomLeft = glm::rotateY(frontBottomLeft, (float)M_1_PI/3.f);
     frontUpperLeft = glm::rotateY(frontUpperLeft, (float)M_1_PI/3.f);
-    //backUpperLeft = glm::rotateY(backUpperLeft, (float)M_1_PI/4.f);
-    //backUpperRight = glm::rotateY(backUpperRight, (float)M_1_PI/4.f);
-    //backBottomRight = glm::rotateY(backBottomRight, (float)M_1_PI/4.f);
-    //backBottomLeft = glm::rotateY(backBottomLeft, (float)M_1_PI/4.f);
 
-    const ColorDouble Red(1.0f, 0.0f, 0.0f);
-    const ColorDouble Green(0.0f, 1.0f, 0.0f);
-    const ColorDouble Blue(0.0f, 0.0f, 1.0f);
-    const ColorDouble Yellow(1.0f, 1.0f, 0.0f);
-    const ColorDouble Purple(1.0f, 0.0f, 1.0f);
-    const ColorDouble Teal(0.0f, 1.0f, 1.0f);
+    const Surface Red(ColorDouble(1.0f, 0.0f, 0.0f));
+    const Surface Green(ColorDouble(0.0f, 1.0f, 0.0f));
+    const Surface Blue(ColorDouble(0.0f, 0.0f, 1.0f));
+    const Surface Yellow(ColorDouble(1.0f, 1.0f, 0.0f));
+    const Surface Purple(ColorDouble(1.0f, 0.0f, 1.0f));
+    const Surface Teal(ColorDouble(0.0f, 1.0f, 1.0f));
 
     //Box floor
     triangles.push_back(Triangle(frontBottomRight, backBottomRight, frontBottomLeft, Red));

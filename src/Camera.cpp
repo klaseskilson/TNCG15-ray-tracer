@@ -100,30 +100,20 @@ ColorDouble Camera::castRay(Scene &scene, const Ray &ray, const ColorDouble &inc
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
     glm::vec3 rayStart = ray.getStart();
-
     ColorDouble clr(inc);
 
     // use for-in loop to pluck first intersection, if it exists
     for (TriangleIntersection &intersection : intersections) {
         Triangle t = intersection.t;
+        // outgoing ray
+        Ray out = ray.bounce(intersection.point, t.getNormal());
 
-        // dE = cos(theta) L dw
-        // dL =
-        // fr = dL(w0)/dE(wi)
-        //
-        // diffuse:
-        // L = fr * pi
-
-        // the rendering equation
-        double angle = glm::angle(ray.getDirection(), t.getNormal());
-        // might be the radiosity
-        clr += t.getColor() * dvec3(cos(angle));
+        clr += t.getSurface().reflect(ray, out);
 
         // bounce this array, recursive call
         if (reflections > 0) {
-            Ray r = ray.bounce(intersection.point, t.getNormal());
-//            addRay(r);
-            clr += castRay(scene, r, clr, reflections - 1);
+//            addRay(out);
+            clr += castRay(scene, out, clr, reflections - 1);
         }
         break;
     }

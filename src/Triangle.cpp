@@ -1,10 +1,10 @@
 #include "Triangle.h"
 
-Triangle::Triangle(const glm::vec3 &a, const glm::vec3 &b, const glm::vec3 &c, const ColorDouble &theColor) {
+Triangle::Triangle(const glm::vec3 &a, const glm::vec3 &b, const glm::vec3 &c, const Surface &s) {
     positions[0] = a;
     positions[1] = b;
     positions[2] = c;
-    color = theColor;
+    surface = s;
 
     // set normal
     glm::vec3 ab = glm::normalize(b - a);
@@ -74,10 +74,10 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     return NOT_INTERSECTION;
 }
 
-const ColorDouble &Triangle::getColor() const {
-    return color;
-}
-
 const glm::vec3 &Triangle::getNormal() const {
     return normal;
+}
+
+const Surface &Triangle::getSurface() const {
+    return surface;
 }
