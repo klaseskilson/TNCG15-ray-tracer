@@ -1,7 +1,6 @@
-#include <utilities.h>
 #include "Surface.h"
 
-ColorDouble Surface::reflect(const Ray &in, const Ray &out) const {
+ColorDouble Surface::reflect(const Ray &in, const Ray &out, const Direction &normal) const {
     switch (reflectionModel) {
         case LAMBERTIAN:
             return lambertianReflection();
@@ -15,6 +14,11 @@ ColorDouble Surface::reflect(const Ray &in, const Ray &out) const {
 
 ColorDouble Surface::lambertianReflection() const {
     return color * (double)reflectionCoefficient / M_PI;
+}
+
+ColorDouble Surface::specularReflection(const Ray &in, const Direction &normal) const {
+    vec3 direction = in.getDirection();
+    return direction;// - dot(direction, normal)*normal;
 }
 
 float Surface::getReflectionCoefficient() const {
