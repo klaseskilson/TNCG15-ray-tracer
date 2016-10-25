@@ -1,3 +1,4 @@
+#include <utilities.h>
 #include "Surface.h"
 
 ColorDouble Surface::reflect(const Ray &in, const Ray &out) const {
@@ -21,7 +22,7 @@ float Surface::getReflectionCoefficient() const {
 Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const {
     switch (reflectionModel) {
         case LAMBERTIAN:
-//            return in.sampleHemisphere(position, normal);
+            return in.sampleHemisphere(position, normal);
         case SPECULAR:
             return in.bounce(position, normal);
         default:

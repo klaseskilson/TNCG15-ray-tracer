@@ -2,7 +2,6 @@
 #define TNCG15_SURFACE_H
 
 #include <iostream>
-#include "definitions.h"
 #include "Ray.h"
 
 const int LAMBERTIAN = 0;
