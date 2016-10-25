@@ -109,11 +109,12 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
     // use for-in loop to pluck first intersection, if it exists
     for (TriangleIntersection &intersection : intersections) {
         Triangle t = intersection.triangle;
+        Surface s = t.getSurface();
+
         // outgoing ray
-        Ray out = ray.bounce(intersection.point, t.getNormal());
+        Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
 
         double angle = glm::angle(ray.getDirection(), t.getNormal());
-        Surface s = t.getSurface();
         ColorDouble emittance = s.reflect(out, ray) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;

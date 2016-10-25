@@ -6,6 +6,7 @@
 #include "Ray.h"
 
 const int LAMBERTIAN = 0;
+const int SPECULAR = 1;
 
 class Surface {
 public:
@@ -14,6 +15,7 @@ public:
     float getReflectionCoefficient() const;
 
     ColorDouble reflect(const Ray &in, const Ray &out) const;
+    Ray bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const;
 
 private:
     ColorDouble color;

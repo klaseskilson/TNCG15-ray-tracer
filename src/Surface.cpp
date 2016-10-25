@@ -17,3 +17,16 @@ ColorDouble Surface::lambertianReflection() const {
 float Surface::getReflectionCoefficient() const {
     return reflectionCoefficient;
 }
+
+Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const {
+    switch (reflectionModel) {
+        case LAMBERTIAN:
+//            return in.sampleHemisphere(position, normal);
+        case SPECULAR:
+            return in.bounce(position, normal);
+        default:
+            std::cout << "INVALID REFLECTION MODEL: " << reflectionModel << std::endl;
+            Ray r;
+            return r;
+    }
+}
