@@ -37,3 +37,11 @@ Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &nor
             return r;
     }
 }
+
+const ColorDouble &Surface::getColor() const {
+    return color;
+}
+
+int Surface::getReflectionModel() const {
+    return reflectionModel;
+}
