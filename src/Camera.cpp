@@ -132,6 +132,12 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             Triangle t = intersection.triangle;
             Surface s = t.getSurface();
 
+            //Area light test.
+            if(s.getReflectionModel() == 2)  {
+                clr = vec3(1.0f);
+                break;
+            }
+
             Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
