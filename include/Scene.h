@@ -20,6 +20,8 @@ public:
     void createBox(glm::vec3 position, float length);
     std::list<TriangleIntersection> detectIntersections(Ray ray);
     std::list<Sphere> detectSphereIntersections(Ray ray);
+    void importTriangles(std::vector<Triangle> triangles);
+    void importTriangle(Triangle &t);
 
 private:
     std::vector<Triangle> triangles;

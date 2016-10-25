@@ -1,16 +1,16 @@
-//
-// Created by Carl Englund on 2016-10-12.
-//
-
 #ifndef TNCG15_BOX_H
 #define TNCG15_BOX_H
 
 #include <vector>
+#include <glm/gtx/rotate_vector.hpp>
 #include "Triangle.h"
 
 class Box {
 public:
-    void createBox(glm::vec3 position, float length);
+    Box(glm::vec3 position, float length);
+
+    const std::vector<Triangle> &getTriangles() const;
+
 private:
     std::vector<Triangle> triangles;
 
