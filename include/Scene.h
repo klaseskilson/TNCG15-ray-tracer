@@ -13,15 +13,20 @@ struct TriangleIntersection {
     glm::vec3 point;
 };
 
+struct SphereIntersection {
+    Sphere sphere;
+    glm::vec3 point;
+};
+
 class Scene {
 public:
     Scene();
     void createRoom();
     void createBox(glm::vec3 position, float length);
     std::list<TriangleIntersection> detectIntersections(Ray ray);
-    std::list<Sphere> detectSphereIntersections(Ray ray);
     void importTriangles(std::vector<Triangle> triangles);
     void importTriangle(Triangle &t);
+    std::list<SphereIntersection> detectSphereIntersections(Ray ray);
 
 private:
     std::vector<Triangle> triangles;

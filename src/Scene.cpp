@@ -36,7 +36,7 @@ void Scene::createRoom() {
     const Surface Green(ColorDouble(0.0f, 1.0f, 0.0f));
     const Surface Blue(ColorDouble(0.0f, 0.0f, 1.0f));
     const Surface Yellow(ColorDouble(1.0f, 1.0f, 0.0f));
-    const Surface Purple(ColorDouble(1.0f, 0.0f, 1.0f));
+    const Surface Purple(ColorDouble(1.0f, 0.0f, 1.0f), SPECULAR);
     const Surface Teal(ColorDouble(0.0f, 1.0f, 1.0f));
 
     // Floor
@@ -102,13 +102,16 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
     return intersections;
 };
 
-std::list<Sphere> Scene::detectSphereIntersections(Ray ray) {
-    std::list<Sphere> intersectingSpheres = {};
+std::list<SphereIntersection> Scene::detectSphereIntersections(Ray ray) {
+    std::list<SphereIntersection> intersectingSpheres = {};
     for(Sphere s : spheres) {
         glm::vec3 intersection;
+        SphereIntersection si;
         int result = s.sphereIntersection(ray, intersection);
         if(result == INTERSECTION) {
-            intersectingSpheres.push_back(s);
+            si.sphere = s;
+            si.point = intersection;
+            intersectingSpheres.push_back(si);
         }
     }
     return intersectingSpheres;
