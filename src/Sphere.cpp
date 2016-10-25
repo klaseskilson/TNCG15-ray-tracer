@@ -6,10 +6,10 @@
 #define EPSILON 0.00000000000000001
 
 
-Sphere::Sphere(glm::vec3 mPosition, float mRadius, ColorDouble mColor) {
+Sphere::Sphere(glm::vec3 mPosition, float mRadius, Surface mSurface) {
     position = mPosition;
     radius = mRadius;
-    color = mColor;
+    surface = mSurface;
 }
 
 int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
@@ -47,8 +47,15 @@ int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
 
    //This will never happen.
    return NOT_INTERSECTION;
+
+
 }
 
-const ColorDouble &Sphere::getColor() const {
-    return color;
+const glm::vec3 &Sphere::getNormal(vec3 point) const {
+    vec3 normal = glm::normalize(point - position);
+    return normal;
+};
+
+const Surface &Sphere::getSurface() const {
+    return surface;
 }

@@ -118,33 +118,57 @@ void Camera::setFov(float f) {
 ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
-    std::list<Sphere> sphereIntersections = scene.detectSphereIntersections(ray);
+    std::list<SphereIntersection> sphereIntersections = scene.detectSphereIntersections(ray);
     ColorDouble clr(inc);
+    float dTs;
+    float dTt;
 
-    // use for-in loop to pluck first intersection, if it exists
-    for (TriangleIntersection &intersection : intersections) {
-        Triangle t = intersection.triangle;
-        Surface s = t.getSurface();
+    if(sphereIntersections.size() > 0 && intersections.size() > 0) {
+        dTs = glm::length(sphereIntersections.front().point - ray.getStart());
+        dTt = glm::length(intersections.front().point - ray.getStart());
+    }
+    if(!sphereIntersections.size() || (sphereIntersections.size() && intersections.size() && dTs > dTt)) {
+        for (TriangleIntersection &intersection : intersections) {
+            Triangle t = intersection.triangle;
+            Surface s = t.getSurface();
 
-        Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
-        double angle = glm::angle(ray.getDirection(), t.getNormal());
+            Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
+            double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-        ColorDouble emittance = s.reflect(out, ray) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = s.reflect(out, ray, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
+            ray.setColor(emittance);
+            clr += emittance;
+
+            // decide if we should terminate or not!
+            double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
+            if (depth < 3 || uniformRand() < rrTop) {
+    //            addRay(out);
+                clr += castRay(scene, out, clr, depth + 1);
+            }
+            break;
+        }
+    }
+    for(SphereIntersection &sphereIntersection : sphereIntersections) {
+        Sphere s = sphereIntersection.sphere;
+        Surface sphereSurface = s.getSurface();
+
+        Ray out = sphereSurface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
+        double angle = glm::angle(ray.getDirection(), s.getNormal(sphereIntersection.point));
+
+        ColorDouble emittance = sphereSurface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
+                                * pow(sphereSurface.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
         if (depth < 5 || uniformRand() < rrTop) {
-//            addRay(out);
+///           addRay(out);
             clr += castRay(scene, out, clr, depth + 1);
         }
         break;
     }
 
-    if(sphereIntersections.size() > 0) {
-        clr = sphereIntersections.front().getColor();
-    }
 
     return clr;
 }
