@@ -40,7 +40,7 @@ private:
     CameraPos getCamera();
 
     //2D 1000x1000 array of type Pixel
-    std::array<std::array<Pixel, WIDTH> ,HEIGHT> pixels;
+    std::array<std::array<Pixel, WIDTH>, HEIGHT> pixels;
     Ray getRayFromPixelCoords(const int w, const int h);
 
     // FOV in radians

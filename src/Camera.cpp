@@ -111,10 +111,9 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
         Triangle t = intersection.triangle;
         Surface s = t.getSurface();
 
-        // outgoing ray
-
         Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
         double angle = glm::angle(ray.getDirection(), t.getNormal());
+
         ColorDouble emittance = s.reflect(out, ray) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;
