@@ -31,6 +31,8 @@ public:
 
     void setSpp(int spp);
 
+    void setSubPixels(int subPixels);
+
 private:
     void createPixels();
     ColorDouble castRays(Scene&);
@@ -50,9 +52,9 @@ private:
     bool eyeBeingUsed;
 
     // sample per pixel
-    int spp = 10;
+    int spp = 50;
 
     // sub-pixels
-    int subPixels = 2;
+    int subPixels = 3;
 };
 #endif //TNCG15_CAMERA_H

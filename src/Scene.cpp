@@ -80,10 +80,11 @@ void Scene::createBox(glm::vec3 position, float length) {
     glm::vec3 backBottomRight(position.x+length, position.y, position.z+(length)),
               backBottomLeft(position.x, position.y, position.z+length);
 
-    frontUpperRight = glm::rotateY(frontUpperRight, (float)M_1_PI/3.f);
-    frontBottomRight = glm::rotateY(frontBottomRight, (float)M_1_PI/3.f);
-    frontBottomLeft = glm::rotateY(frontBottomLeft, (float)M_1_PI/3.f);
-    frontUpperLeft = glm::rotateY(frontUpperLeft, (float)M_1_PI/3.f);
+    float rotation = (float)M_PI / 30.0f;
+    frontUpperRight = glm::rotateY(frontUpperRight, rotation);
+    frontBottomRight = glm::rotateY(frontBottomRight, rotation);
+    frontBottomLeft = glm::rotateY(frontBottomLeft, rotation);
+    frontUpperLeft = glm::rotateY(frontUpperLeft, rotation);
 
     const Surface Red(ColorDouble(1.0f, 0.0f, 0.0f));
     const Surface Green(ColorDouble(0.0f, 1.0f, 0.0f));

@@ -4,6 +4,7 @@
 #include "definitions.h"
 #include <glm/glm.hpp>
 #include "utilities.h"
+
 class Ray {
 public:
     Ray() : Ray(vec3(0.0f), vec3(0.0f)) {};

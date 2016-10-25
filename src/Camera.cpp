@@ -152,3 +152,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
 void Camera::setSpp(int spp) {
     Camera::spp = spp;
 }
+
+void Camera::setSubPixels(int subPixels) {
+    Camera::subPixels = subPixels;
+}
