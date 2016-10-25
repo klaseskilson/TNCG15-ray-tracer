@@ -7,9 +7,7 @@ Triangle::Triangle(const glm::vec3 &a, const glm::vec3 &b, const glm::vec3 &c, c
     surface = s;
 
     // set normal
-    glm::vec3 ab = glm::normalize(b - a);
-    glm::vec3 bc = glm::normalize(c - b);
-    normal = glm::cross(ab, bc);
+    normal = glm::normalize(glm::cross(edge1(), edge2()));
 }
 
 /**
