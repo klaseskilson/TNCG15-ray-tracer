@@ -5,6 +5,8 @@ ColorDouble Surface::reflect(const Ray &in, const Ray &out) const {
     switch (reflectionModel) {
         case LAMBERTIAN:
             return lambertianReflection();
+        case SPECULAR:
+            return lambertianReflection();
         default:
             std::cout << "INVALID REFLECTION MODEL: " << reflectionModel << std::endl;
             return ColorDouble(0.0);

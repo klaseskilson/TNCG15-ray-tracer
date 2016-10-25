@@ -2,7 +2,6 @@
 
 Camera::Camera(bool cameraPosition) {
     eyeBeingUsed = cameraPosition;
-    createPixels();
 }
 
 void Camera::createPixels() {
@@ -25,6 +24,7 @@ void Camera::createPixels() {
 void Camera::createImage(Scene &scene, std::string filename) {
     std::cout << "Creating " << WIDTH << "x" << HEIGHT << " image..." << std::endl;
     std::cout << "SPP: " << spp << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
+    createPixels();
     ColorDouble max = castRays(scene);
     writeToFile(filename, max);
     std::cout << "DONE!" << std::endl;
@@ -82,8 +82,10 @@ void Camera::writeToFile(const std::string filename, const ColorDouble &max) {
 
 Ray Camera::getRayFromPixelCoords(const int w, const int h) {
     CameraPos c = getCamera();
+    double aspectRatio = (double)HEIGHT / (double)WIDTH;
     double pw = (double)w / WIDTH, ph = (double)h / HEIGHT;
-    double radW = pw * fov - fov / 2, radH = ph * fov - fov / 2;
+    double fovH = fov * aspectRatio;
+    double radW = pw * fov - fov / 2, radH = ph * fovH - fovH / 2;
     double diffW = -sin(radW), diffH = -sin(radH);
     glm::vec3 diff(diffW, diffH, 0.0f);
     glm::vec3 lookAt = c.second + diff;
