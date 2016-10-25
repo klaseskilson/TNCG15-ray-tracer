@@ -17,11 +17,13 @@ void Ray::setColor(const ColorDouble &clr) {
 
 Ray Ray::sampleHemisphere(const vec3 position, const vec3 normal) const{
 
-    float r1 = uniformRand();
+    float r1 = 2*M_PI*uniformRand();
     float r2 = uniformRand();
-    float theta = r1 * M_1_PI * 2.0f;
-    float phi = acos(r2);
-    vec3 v1 = glm::vec3(cos(theta)*sin(phi), sin(phi)*sin(theta), cos(phi));
+    float r2squareRoot = sqrt(r2);
+    vec3 w = normal;
+    vec3 u = normalize((fabs(w.x)>.1?vec3(0, 1, 0):cross(vec3(1.0f),w)));
+    vec3 v = cross(w, u);
+    vec3 d = normalize((u*(float)cos(r1)*r2squareRoot + v*(float)sin(r1)*r2squareRoot + w*(float)sqrt(1-r2)));
     
-    return Ray(position, v1);
+    return Ray(position, d);
 }

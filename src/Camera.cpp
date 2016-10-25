@@ -121,7 +121,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-        if (depth < 0/*5 || uniformRand() < rrTop */) {
+        if (depth < 5 || uniformRand() < rrTop) {
 //            addRay(out);
             clr += castRay(scene, out, clr, depth + 1);
         }
