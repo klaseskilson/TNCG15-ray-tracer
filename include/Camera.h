@@ -7,6 +7,7 @@
 #include <math.h>
 #include <iomanip>
 #include <iostream>
+#include <glm/gtx/string_cast.hpp>
 #include "Pixel.h"
 #include "Scene.h"
 #include "utilities.h"
@@ -49,6 +50,6 @@ private:
     bool eyeBeingUsed;
 
     // sample per pixel
-    int spp = 5;
+    int spp = 1;
 };
 #endif //TNCG15_CAMERA_H

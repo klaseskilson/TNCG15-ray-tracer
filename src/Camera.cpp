@@ -23,7 +23,8 @@ void Camera::createPixels() {
  * @param filename the name of the file to write to
  */
 void Camera::createImage(Scene &scene, std::string filename) {
-    std::cout << "Creating image..." << std::endl;
+    std::cout << "Creating " << WIDTH << "x" << HEIGHT << " image..." << std::endl;
+    std::cout << "SPP: " << spp << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
     ColorDouble max = castRays(scene);
     writeToFile(filename, max);
     std::cout << "DONE!" << std::endl;
@@ -117,9 +118,11 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
         ray.setColor(emittance);
         clr += emittance;
 
+        // TODO: random ray direction within hemisphere
+
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-        if (depth < 5 || uniformRand() < rrTop) {
+        if (depth < 0/*5 || uniformRand() < rrTop */) {
 //            addRay(out);
             clr += castRay(scene, out, clr, depth + 1);
         }

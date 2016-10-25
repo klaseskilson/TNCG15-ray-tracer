@@ -4,8 +4,9 @@
 #include "Camera.h"
 
 int main() {
-    Camera *cam = new Camera(true);
-    Scene s;
-    cam->createImage(s);
+    Scene scene;
+    Camera cam(true);
+    cam.setSpp(5);
+    cam.createImage(scene);
     return 0;
 }
