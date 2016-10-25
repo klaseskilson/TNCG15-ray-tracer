@@ -19,3 +19,7 @@ Ray Pixel::getFirstRay() {
 void Pixel::setColorDouble(const ColorDouble &colorDouble) {
     Pixel::colorDouble = colorDouble;
 }
+
+const std::vector<Ray> &Pixel::getRayList() const {
+    return rayList;
+}

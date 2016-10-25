@@ -18,6 +18,8 @@ public:
 
     const ColorDouble &getColorDouble() const;
 
+    const std::vector<Ray> &getRayList() const;
+
     Ray getFirstRay();
 
 private:

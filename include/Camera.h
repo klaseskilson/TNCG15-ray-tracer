@@ -50,6 +50,9 @@ private:
     bool eyeBeingUsed;
 
     // sample per pixel
-    int spp = 1;
+    int spp = 10;
+
+    // sub-pixels
+    int subPixels = 2;
 };
 #endif //TNCG15_CAMERA_H

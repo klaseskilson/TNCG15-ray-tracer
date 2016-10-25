@@ -8,8 +8,17 @@ void Camera::createPixels() {
     for (int h = 0; h < HEIGHT; ++h) {
         for (int w = 0; w < WIDTH; ++w) {
             Pixel p(ColorDouble(0.0f));
-            Ray r = getRayFromPixelCoords(w, h);
-            p.addRay(r);
+
+            float diff = 1.0f / subPixels;
+            for (int subX = 0; subX < subPixels; ++subX) {
+                for (int subY = 0; subY < subPixels; ++subY) {
+                    double x = randMinMax(w + subX * diff, w + (subX + 1) * diff);
+                    double y = randMinMax(h + subY * diff, h + (subY + 1) * diff);
+                    Ray r = getRayFromPixelCoords(x, y);
+                    p.addRay(r);
+                }
+            }
+
             pixels[h][w] = p;
         }
     }
@@ -23,7 +32,9 @@ void Camera::createPixels() {
  */
 void Camera::createImage(Scene &scene, std::string filename) {
     std::cout << "Creating " << WIDTH << "x" << HEIGHT << " image..." << std::endl;
-    std::cout << "SPP: " << spp << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
+    std::cout << "SPP: " << spp
+              << ". Subpixels: " << subPixels
+              << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
     createPixels();
     ColorDouble max = castRays(scene);
     writeToFile(filename, max);
@@ -49,11 +60,13 @@ ColorDouble Camera::castRays(Scene &scene) {
 
             // cast ray for this pixel
             ColorDouble clr(0.0);
-            for (int i = 0; i < spp; ++i) {
-                Ray r = pixel.getFirstRay();
-                clr += castRay(scene, r, pixel.getColorDouble());
+            std::vector<Ray> rays = pixel.getRayList();
+            for (Ray r : rays) {
+                for (int i = 0; i < spp; ++i) {
+                    clr += castRay(scene, r, pixel.getColorDouble());
+                }
             }
-            clr /= (double) spp;
+            clr /= (double) (spp * subPixels * subPixels);
             pixel.setColorDouble(clr);
             max = glm::max(max, clr);
             count += 1;
