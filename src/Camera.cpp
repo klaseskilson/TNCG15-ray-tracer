@@ -133,7 +133,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             Surface s = t.getSurface();
 
             //Area light test.
-            if(s.getReflectionModel() == 2)  {
+            if(s.hasReflectionModel(LIGHTSOURCE))  {
                 clr = vec3(1.0f);
                 break;
             }
@@ -149,10 +149,8 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
             if (depth < MAX_DEPTH || uniformRand() < rrTop) {
     //            addRay(out);
-                if(s.getReflectionModel() == 0)
-                    clr += castRay(scene, out, clr, depth + 1);
-                else
-                    clr += castRay(scene, out, clr, MAX_DEPTH);
+                int nextDepth = s.hasReflectionModel(SPECULAR) ? depth : depth + 1;
+                clr += castRay(scene, out, clr, nextDepth);
             }
             break;
         }

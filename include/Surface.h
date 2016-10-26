@@ -22,6 +22,10 @@ public:
     ColorDouble reflect(const Ray &in, const Ray &out, const Direction &normal) const;
     Ray bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const;
 
+    bool hasReflectionModel(const int &model) const {
+        return model == reflectionModel;
+    }
+
 private:
     ColorDouble color;
     int reflectionModel;
