@@ -15,7 +15,7 @@ int main() {
     cam.setFov(M_PI / 1.5);
 
     // limit rendering numbers for debugging, comment out for magic resutl
-    cam.setSpp(1);
+    cam.setSpp(3);
     cam.setSubPixels(1);
 
     cam.createImage(scene);

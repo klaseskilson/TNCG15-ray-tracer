@@ -22,7 +22,6 @@ class Scene {
 public:
     Scene();
     void createRoom();
-    void createBox(glm::vec3 position, float length);
     std::list<TriangleIntersection> detectIntersections(Ray ray);
     void importTriangles(std::vector<Triangle> triangles);
     void importTriangle(Triangle &t);

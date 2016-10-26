@@ -1,7 +1,3 @@
-//
-// Created by Carl Englund on 2016-10-19.
-//
-
 #ifndef TNCG15_LIGHT_H
 #define TNCG15_LIGHT_H
 
@@ -16,7 +12,5 @@ public:
     const std::vector<Triangle> &getTriangles() const;
 private:
     std::vector<Triangle> triangles;
-    ColorDouble color;
-
 };
 #endif //TNCG15_LIGHT_H

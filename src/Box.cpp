@@ -1,6 +1,5 @@
 #include "Box.h"
 
-
 Box::Box(glm::vec3 position, float length) {
     glm::vec3 frontUpperRight(position.x+length, position.y+length, position.z+length),
             frontBottomRight(position.x+length, position.y, position.z+length);
