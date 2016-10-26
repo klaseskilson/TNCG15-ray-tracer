@@ -141,15 +141,18 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-            ColorDouble emittance = s.reflect(out, ray, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = s.reflect(ray, out, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
 
             // decide if we should terminate or not!
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-            if (depth < 3 || uniformRand() < rrTop) {
+            if (depth < MAX_DEPTH || uniformRand() < rrTop) {
     //            addRay(out);
-                clr += castRay(scene, out, clr, depth + 1);
+                if(s.getReflectionModel() == 0)
+                    clr += castRay(scene, out, clr, depth + 1);
+                else
+                    clr += castRay(scene, out, clr, MAX_DEPTH);
             }
             break;
         }

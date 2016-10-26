@@ -22,6 +22,8 @@ const CameraPos CAMERA_POS_1 (glm::vec3(0.0f, 2.5f, 0.0f),
 const CameraPos CAMERA_POS_2 (glm::vec3(0.0f, 2.5f, 2.5f),
                               glm::vec3(0.0f, 0.0f, -1.0f));
 
+const int MAX_DEPTH = 3;
+
 class Camera {
 public:
     Camera(bool cameraPosition = true);
