@@ -6,7 +6,7 @@ Ray::Ray(glm::vec3 s, glm::vec3 d) {
 }
 
 Ray Ray::bounce(const vec3 &position, const vec3 &normal) const {
-    glm::vec3 newDirection = glm::reflect(direction, normal);
+    glm::vec3 newDirection = direction - normal*2.0f*dot(normal, direction);
     Ray r(position, newDirection);
     return r;
 }
