@@ -12,7 +12,7 @@ class Sphere {
 public:
     Sphere(glm::vec3 v = glm::vec3(), float f = 0.0f, Surface s = Surface());
     int sphereIntersection(Ray&, glm::vec3&);
-    const glm::vec3 &getNormal(vec3 point) const;
+    vec3 getNormal(vec3 point);
     const Surface &getSurface() const;
 private:
     glm::vec3 position;
