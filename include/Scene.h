@@ -19,7 +19,7 @@ struct SphereIntersection {
 };
 
 struct ObjectIntersection {
-    SceneObject object;
+    SceneObject *object;
     vec3 point;
 };
 
@@ -27,7 +27,7 @@ class Scene {
 public:
     Scene();
     void createRoom();
-    std::list<TriangleIntersection> detectIntersections(Ray ray);
+    std::list<ObjectIntersection> detectIntersections(Ray ray);
     void importTriangles(std::vector<Triangle> triangles);
     void importTriangle(Triangle &t);
     std::list<SphereIntersection> detectSphereIntersections(Ray ray);

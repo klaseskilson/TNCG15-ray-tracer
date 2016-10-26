@@ -82,15 +82,15 @@ void Scene::importTriangle(Triangle &t) {
  * @param ray
  * @return list of TriangleIntersections, sorted by distance to ray start
  */
-std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) {
-    std::list<TriangleIntersection> intersections = {};
-    for (Triangle triangle : triangles) {
-        TriangleIntersection ti;
+std::list<ObjectIntersection> Scene::detectIntersections(Ray ray) {
+    std::list<ObjectIntersection> intersections = {};
+    for (Triangle &triangle : triangles) {
+        ObjectIntersection ti;
         glm::vec3 intersection;
         int result = triangle.intersection(ray, intersection);
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
-            ti.triangle = triangle;
+            ti.object = &triangle;
             ti.point = intersection;
             intersections.push_back(ti);
         }

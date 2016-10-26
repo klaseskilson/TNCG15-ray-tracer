@@ -116,7 +116,7 @@ void Camera::setFov(float f) {
 
 // TODO: split this mess somehow
 ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth) {
-    std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
+    std::list<ObjectIntersection> intersections = scene.detectIntersections(ray);
     std::list<SphereIntersection> sphereIntersections = scene.detectSphereIntersections(ray);
     ColorDouble clr(inc);
     float dTs;
@@ -127,9 +127,9 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
         dTt = glm::length(intersections.front().point - ray.getStart());
     }
     if(!sphereIntersections.size() || (sphereIntersections.size() && intersections.size() && dTs > dTt)) {
-        for (TriangleIntersection &intersection : intersections) {
-            Triangle t = intersection.triangle;
-            Surface surface = t.getSurface();
+        for (ObjectIntersection &intersection : intersections) {
+            auto t = intersection.object;
+            Surface surface = t->getSurface();
 
             //Area light test.
             if(surface.hasReflectionModel(LIGHTSOURCE))  {
@@ -137,10 +137,10 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
                 break;
             }
 
-            Ray out = surface.bounceRay(ray, intersection.point, t.getNormal());
-            double angle = glm::angle(ray.getDirection(), t.getNormal());
+            Ray out = surface.bounceRay(ray, intersection.point, t->getNormal());
+            double angle = glm::angle(ray.getDirection(), t->getNormal());
 
-            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = surface.reflect(ray, out, t->getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
 
