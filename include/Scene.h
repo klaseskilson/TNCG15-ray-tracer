@@ -19,17 +19,20 @@ struct SphereIntersection {
     glm::vec3 point;
 };
 
+const int SHADOW_RAY_COUNT = 3;
+
 class Scene {
 public:
     Scene();
     void createRoom();
-    std::list<TriangleIntersection> detectIntersections(Ray ray);
+    std::list<TriangleIntersection> detectIntersections(Ray ray) const;
+    std::list<SphereIntersection> detectSphereIntersections(Ray ray) const;
     void importTriangles(std::vector<Triangle> triangles);
     void importTriangle(Triangle &t);
-    std::list<SphereIntersection> detectSphereIntersections(Ray ray);
     void addLight(const Light &l) {
         lights.push_back(l);
     }
+    ColorDouble getLightEffects(const vec3 &point, const vec3 &normal) const;
 
 private:
     std::vector<Triangle> triangles;

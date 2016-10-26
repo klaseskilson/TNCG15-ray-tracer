@@ -11,7 +11,10 @@ public:
     Light();
     const std::vector<Triangle> &getTriangles() const;
 
+    double getLightIntensity() const;
+
 private:
     std::vector<Triangle> triangles;
+    double lightIntensity = 25.0;
 };
 #endif //TNCG15_LIGHT_H

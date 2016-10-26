@@ -25,12 +25,14 @@ public:
     vec3 getRandomPoint() const;
     vec3 fromBarycentric(float a, float b) const;
 
+    double area() const;
+
 private:
     std::array<glm::vec3, 3> positions;
     Surface surface;
     glm::vec3 normal;
-    glm::vec3 edge1() { return positions[1] - positions[0]; }
-    glm::vec3 edge2() { return positions[2] - positions[0]; }
+    glm::vec3 edge1() const { return positions[1] - positions[0]; }
+    glm::vec3 edge2() const { return positions[2] - positions[0]; }
 };
 
 #endif //TNCG15_TRIANGLE_H

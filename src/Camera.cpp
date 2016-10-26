@@ -55,7 +55,7 @@ ColorDouble Camera::castRays(Scene &scene) {
             // calculate progress
             float progress = 100.0f * (float)count / total;
             // pring progress (use one of the two lines)
-//            std::cout << "\r" << std::setw(7) << std::setprecision(5) << progress << "%";
+            std::cout << "\r" << progress << "%";
 //            std::cout << std::setprecision(5) << progress << "%" << std::endl;
 
             // cast ray for this pixel
@@ -77,7 +77,7 @@ ColorDouble Camera::castRays(Scene &scene) {
 }
 
 void Camera::writeToFile(const std::string filename, const ColorDouble &max) {
-    std::cout << "Writing image..." << std::endl;
+    std::cout << std::endl << std::endl << "Writing image..." << std::endl;
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
     (void) fprintf(fp, "P3\n%d %d\n255\n", WIDTH, HEIGHT);
     for (auto &row : pixels) {
@@ -134,7 +134,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
 
             //Area light test.
             if(s.hasReflectionModel(LIGHTSOURCE))  {
-                clr = vec3(1.0f);
+                clr = s.getColor();
                 break;
             }
 
@@ -144,6 +144,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             ColorDouble emittance = s.reflect(ray, out, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
+            clr *= scene.getLightEffects(intersection.point, t.getNormal());
 
             // decide if we should terminate or not!
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
@@ -166,6 +167,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
                                 * pow(sphereSurface.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;
+        clr *= scene.getLightEffects(sphereIntersection.point, s.getNormal(sphereIntersection.point));
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);

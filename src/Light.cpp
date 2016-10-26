@@ -19,3 +19,7 @@ Light::Light() {
 const std::vector<Triangle> &Light::getTriangles() const {
     return triangles;
 }
+
+double Light::getLightIntensity() const {
+    return lightIntensity;
+}
