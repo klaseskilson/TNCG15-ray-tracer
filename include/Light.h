@@ -10,6 +10,7 @@ class Light {
 public:
     Light();
     const std::vector<Triangle> &getTriangles() const;
+
 private:
     std::vector<Triangle> triangles;
 };

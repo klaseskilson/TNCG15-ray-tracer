@@ -22,6 +22,9 @@ public:
 
     const Surface &getSurface() const;
 
+    vec3 getRandomPoint() const;
+    vec3 fromBarycentric(float a, float b) const;
+
 private:
     std::array<glm::vec3, 3> positions;
     Surface surface;

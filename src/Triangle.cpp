@@ -79,3 +79,15 @@ const glm::vec3 &Triangle::getNormal() const {
 const Surface &Triangle::getSurface() const {
     return surface;
 }
+
+vec3 Triangle::getRandomPoint() const {
+    double a = uniformRand(), b = uniformRand();
+    if (a + b > 1.0) {
+        return getRandomPoint();
+    }
+    return fromBarycentric((float) a, (float) b);
+}
+
+vec3 Triangle::fromBarycentric(float a, float b) const {
+    return (1.0f - a - b) * positions[0] + a * positions[1] + b * positions[2];
+}

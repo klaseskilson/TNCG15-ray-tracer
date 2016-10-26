@@ -7,6 +7,7 @@
 #include "Triangle.h"
 #include "Ray.h"
 #include "Sphere.h"
+#include "Light.h"
 
 struct TriangleIntersection {
     Triangle triangle;
@@ -26,10 +27,14 @@ public:
     void importTriangles(std::vector<Triangle> triangles);
     void importTriangle(Triangle &t);
     std::list<SphereIntersection> detectSphereIntersections(Ray ray);
+    void addLight(const Light &l) {
+        lights.push_back(l);
+    }
 
 private:
     std::vector<Triangle> triangles;
     std::vector<Sphere> spheres;
+    std::list<Light> lights;
 
 };
 
