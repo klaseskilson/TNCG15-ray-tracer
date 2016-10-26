@@ -8,12 +8,12 @@
 #include "Ray.h"
 #include "Surface.h"
 
-class Sphere {
+class Sphere : public SceneObject {
 public:
     Sphere(glm::vec3 v = glm::vec3(), float f = 0.0f, Surface s = Surface());
     int sphereIntersection(Ray&, glm::vec3&);
-    vec3 getNormal(vec3 point);
-    const Surface &getSurface() const;
+    const glm::vec3 &getNormal(const vec3 &point = vec3(0.0)) const;
+
 private:
     glm::vec3 position;
     float radius;

@@ -116,7 +116,6 @@ void Camera::setFov(float f) {
 
 // TODO: split this mess somehow
 ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth) {
-    // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<SphereIntersection> sphereIntersections = scene.detectSphereIntersections(ray);
     ColorDouble clr(inc);
@@ -130,18 +129,18 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
     if(!sphereIntersections.size() || (sphereIntersections.size() && intersections.size() && dTs > dTt)) {
         for (TriangleIntersection &intersection : intersections) {
             Triangle t = intersection.triangle;
-            Surface s = t.getSurface();
+            Surface surface = t.getSurface();
 
             //Area light test.
-            if(s.getReflectionModel() == 2)  {
+            if(surface.hasReflectionModel(LIGHTSOURCE))  {
                 clr = vec3(1.0f);
                 break;
             }
 
-            Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
+            Ray out = surface.bounceRay(ray, intersection.point, t.getNormal());
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-            ColorDouble emittance = s.reflect(ray, out, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
 
@@ -149,7 +148,9 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
             if (depth < MAX_DEPTH || uniformRand() < rrTop) {
     //            addRay(out);
-                if(s.getReflectionModel() == 0)
+//                clr += castRay(scene, out, clr, depth + 1);
+                // what is going on here?
+                if(surface.hasReflectionModel(LAMBERTIAN))
                     clr += castRay(scene, out, clr, depth + 1);
                 else
                     clr += castRay(scene, out, clr, MAX_DEPTH);
@@ -159,20 +160,20 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
     }
     for(SphereIntersection &sphereIntersection : sphereIntersections) {
         Sphere s = sphereIntersection.sphere;
-        Surface sphereSurface = s.getSurface();
+        Surface surface = s.getSurface();
 
-        Ray out = sphereSurface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
+        Ray out = surface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
         double angle = glm::angle(ray.getDirection(), s.getNormal(sphereIntersection.point));
 
-        ColorDouble emittance = sphereSurface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
-                                * pow(sphereSurface.getReflectionCoefficient(), (double)depth);
+        ColorDouble emittance = surface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
+                                * pow(surface.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-        if (depth < 5 || uniformRand() < rrTop) {
-///           addRay(out);
+        if (depth < MAX_DEPTH || uniformRand() < rrTop) {
+//            addRay(out);
             clr += castRay(scene, out, clr, depth + 1);
         }
         break;

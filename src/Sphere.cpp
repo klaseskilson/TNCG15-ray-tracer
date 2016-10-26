@@ -51,10 +51,6 @@ int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
 
 }
 
-vec3 Sphere::getNormal(vec3 point) {
+const vec3 &Sphere::getNormal(const vec3 &point) const {
     return glm::normalize(point - position);
-};
-
-const Surface &Sphere::getSurface() const {
-    return surface;
 }

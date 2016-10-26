@@ -6,9 +6,10 @@ ColorDouble Surface::reflect(const Ray &in, const Ray &out, const Direction &nor
             return lambertianReflection();
         case SPECULAR:
             return specularReflection();
-        default:
+        default: {
             std::cout << "INVALID REFLECTION MODEL: " << reflectionModel << std::endl;
             return ColorDouble(0.0);
+        }
     }
 }
 
@@ -30,10 +31,11 @@ Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &nor
             return in.sampleHemisphere(position, normal);
         case SPECULAR:
             return in.bounce(position, normal);
-        default:
+        default: {
             std::cout << "INVALID REFLECTION MODEL: " << reflectionModel << std::endl;
             Ray r;
             return r;
+        }
     }
 }
 

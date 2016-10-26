@@ -72,10 +72,6 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     return NOT_INTERSECTION;
 }
 
-const glm::vec3 &Triangle::getNormal() const {
+const vec3 &Triangle::getNormal() const {
     return normal;
-}
-
-const Surface &Triangle::getSurface() const {
-    return surface;
 }
