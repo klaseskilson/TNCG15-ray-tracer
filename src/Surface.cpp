@@ -5,7 +5,7 @@ ColorDouble Surface::reflect(const Ray &in, const Ray &out, const Direction &nor
         case LAMBERTIAN:
             return lambertianReflection();
         case SPECULAR:
-            return lambertianReflection();
+            return specularReflection();
         default:
             std::cout << "INVALID REFLECTION MODEL: " << reflectionModel << std::endl;
             return ColorDouble(0.0);
@@ -16,9 +16,8 @@ ColorDouble Surface::lambertianReflection() const {
     return color * (double)reflectionCoefficient / M_PI;
 }
 
-ColorDouble Surface::specularReflection(const Ray &in, const Direction &normal) const {
-    vec3 direction = in.getDirection();
-    return direction;// - dot(direction, normal)*normal;
+ColorDouble Surface::specularReflection() const {
+    return color;// - dot(direction, normal)*normal;
 }
 
 float Surface::getReflectionCoefficient() const {

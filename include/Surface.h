@@ -29,7 +29,7 @@ private:
 
     // reflection models
     ColorDouble lambertianReflection() const;
-    ColorDouble specularReflection(const Ray &in, const Direction &normal) const;
+    ColorDouble specularReflection() const;
 };
 
 #endif //TNCG15_SURFACE_H
