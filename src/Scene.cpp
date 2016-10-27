@@ -4,7 +4,7 @@
 
 Scene::Scene() {
     createRoom();
-    Sphere sphere(glm::vec3(-2.0f, 2.0f, 7.0f), 1.0f, ColorDouble(0.0f, 1.0f, 0.0f));
+    Sphere sphere(glm::vec3(-2.0f, 2.0f, 7.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
     spheres.push_back(sphere);
 }
 
@@ -39,6 +39,7 @@ void Scene::createRoom() {
     const Surface Yellow(ColorDouble(1.0f, 1.0f, 0.0f));
     const Surface Purple(ColorDouble(1.0f, 0.0f, 1.0f));
     const Surface Teal(ColorDouble(0.0f, 1.0f, 1.0f));
+    const Surface Mirror(ColorDouble(0.0f), SPECULAR);
 
     // Floor
     triangles.push_back(Triangle(bBottom, cBottom, aBottom, White));
@@ -63,8 +64,8 @@ void Scene::createRoom() {
     triangles.push_back(Triangle(aBottom, aTop, bTop, Purple));
     triangles.push_back(Triangle(aBottom, bTop, bBottom, Purple));
     // Right side front
-    triangles.push_back(Triangle(cBottom, cTop, aTop, Purple));
-    triangles.push_back(Triangle(cBottom, aTop, aBottom, Purple));
+    triangles.push_back(Triangle(cBottom, cTop, aTop, Mirror));
+    triangles.push_back(Triangle(cBottom, aTop, aBottom, Mirror));
     // Right side center
     triangles.push_back(Triangle(eBottom, eTop, cTop, Blue));
     triangles.push_back(Triangle(eBottom, cTop, cBottom, Blue));
@@ -92,7 +93,7 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) const {
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
             ti.triangle = triangle;
-            ti.point = intersection;
+            ti.point = intersection + INTERSECTION_MARGIN * triangle.getNormal();
             intersections.push_back(ti);
         }
     }
@@ -111,7 +112,7 @@ std::list<SphereIntersection> Scene::detectSphereIntersections(Ray ray) const {
         int result = s.sphereIntersection(ray, intersection);
         if(result == INTERSECTION) {
             si.sphere = s;
-            si.point = intersection;
+            si.point = intersection + INTERSECTION_MARGIN * s.getNormal(intersection);
             intersectingSpheres.push_back(si);
         }
     }
@@ -149,7 +150,7 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
 
                 // calc geometric term
                 double alpha = glm::dot(normal, ray.getDirection());
-                double beta = glm::clamp((double)glm::dot(lightTriangle.getNormal(), -ray.getDirection()), 0.0, 1.0);
+                double beta = glm::clamp((double) glm::dot(lightTriangle.getNormal(), -ray.getDirection()), 0.0, 1.0);
 
                 double geometric = alpha * beta / pow(lightDistance, 2.0);
                 clr += lightTriangle.getSurface().getColor() * geometric * light.getLightIntensity();

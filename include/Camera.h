@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <iostream>
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/component_wise.hpp>
 #include "Pixel.h"
 #include "Scene.h"
 #include "utilities.h"
@@ -37,15 +38,15 @@ public:
 
 private:
     void createPixels();
-    ColorDouble castRays(Scene&);
+    double castRays(Scene&);
     ColorDouble castRay(Scene &scene, Ray &ray, int depth = 0);
-    void writeToFile(const std::string, const ColorDouble&);
+    void writeToFile(const std::string, const double&);
 
     CameraPos getCamera();
 
     //2D 1000x1000 array of type Pixel
     std::array<std::array<Pixel, WIDTH>, HEIGHT> pixels;
-    Ray getRayFromPixelCoords(const int w, const int h);
+    Ray getRayFromPixelCoords(const double w, const double h);
 
     // FOV in radians
     float fov = ((float) M_PI) / 2.0f;

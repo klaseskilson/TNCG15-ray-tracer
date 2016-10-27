@@ -6,18 +6,18 @@
 int main() {
     Scene scene;
 
-    Box b(glm::vec3(0.0f, -2.0f, 5.0f), 2);
+    Box box(glm::vec3(0.0f, -2.0f, 5.0f), 2);
     Light areaLight;
-    scene.importTriangles(b.getTriangles());
+//    scene.importTriangles(box.getTriangles());
     scene.importTriangles(areaLight.getTriangles());
     scene.addLight(areaLight);
 
     Camera cam(true);
     cam.setFov(M_PI / 1.5);
 
-    // limit rendering numbers for debugging, comment out for magic resutl
-    cam.setSpp(3);
-    cam.setSubPixels(1);
+    // limit rendering numbers for debugging, comment out for magic result
+    cam.setSpp(5);
+    cam.setSubPixels(2);
 
     cam.createImage(scene);
     return 0;

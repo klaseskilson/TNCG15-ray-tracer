@@ -10,6 +10,7 @@ static std::uniform_real_distribution<double> DISTR(0.0, 1.0);
 double uniformRand();
 double randMinMax(const double &min, const double &max);
 
+
 std::ostream &operator<< (std::ostream &out, const vec3 &vec);
 
 

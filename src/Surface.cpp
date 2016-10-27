@@ -27,7 +27,7 @@ float Surface::getReflectionCoefficient() const {
 Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const {
     switch (reflectionModel) {
         case LAMBERTIAN:
-            return in.sampleHemisphere(in.bounce(position, normal), normal);
+            return in.sampleHemisphere(position, normal);
         case SPECULAR:
             return in.bounce(position, normal);
         default:
@@ -38,9 +38,5 @@ Ray Surface::bounceRay(const Ray &in, const vec3 &position, const Direction &nor
 }
 
 const ColorDouble &Surface::getColor() const {
-    return color;
-}
-
-int Surface::getReflectionModel() const {
-    return reflectionModel;
+    return hasReflectionModel(SPECULAR) ? ColorDouble(0.0) : color;
 }

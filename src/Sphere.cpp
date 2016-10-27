@@ -47,8 +47,6 @@ int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
 
    //This will never happen.
    return NOT_INTERSECTION;
-
-
 }
 
 vec3 Sphere::getNormal(vec3 point) {

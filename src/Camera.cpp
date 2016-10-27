@@ -4,6 +4,23 @@ Camera::Camera(bool cameraPosition) {
     eyeBeingUsed = cameraPosition;
 }
 
+/**
+ * Write PPM image
+ *
+ * @param scene the scene to take the image of
+ * @param filename the name of the file to write to
+ */
+void Camera::createImage(Scene &scene, std::string filename) {
+    std::cout << "Creating " << WIDTH << "x" << HEIGHT << " image..." << std::endl;
+    std::cout << "SPP: " << spp
+              << ". Subpixels: " << subPixels
+              << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
+    createPixels();
+    double max = castRays(scene);
+    writeToFile(filename, max);
+    std::cout << "DONE!" << std::endl;
+}
+
 void Camera::createPixels() {
     for (int h = 0; h < HEIGHT; ++h) {
         for (int w = 0; w < WIDTH; ++w) {
@@ -25,29 +42,12 @@ void Camera::createPixels() {
 }
 
 /**
- * Write PPM image
- *
- * @param scene the scene to take the image of
- * @param filename the name of the file to write to
- */
-void Camera::createImage(Scene &scene, std::string filename) {
-    std::cout << "Creating " << WIDTH << "x" << HEIGHT << " image..." << std::endl;
-    std::cout << "SPP: " << spp
-              << ". Subpixels: " << subPixels
-              << ". Camera: " << glm::to_string(getCamera().first) << "." << std::endl;
-    createPixels();
-    ColorDouble max = castRays(scene);
-    writeToFile(filename, max);
-    std::cout << "DONE!" << std::endl;
-}
-
-/**
  * send rays into scnee
  * @param scene the scene
  * @return the maximum intensity found
  */
-ColorDouble Camera::castRays(Scene &scene) {
-    ColorDouble max(0.0f);
+double Camera::castRays(Scene &scene) {
+    double maximum = 0.0;
     std::cout << "Casting rays..." << std::endl;
     int count = 0, total = WIDTH * HEIGHT;
     for (auto &row : pixels) {
@@ -68,35 +68,35 @@ ColorDouble Camera::castRays(Scene &scene) {
             }
             clr /= (double) (spp * subPixels * subPixels);
             pixel.setColorDouble(clr);
-            max = glm::max(max, clr);
+            maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
             count += 1;
         }
     }
 
-    return max;
+    return maximum;
 }
 
-void Camera::writeToFile(const std::string filename, const ColorDouble &max) {
-    std::cout << std::endl << std::endl << "Writing image..." << std::endl;
+void Camera::writeToFile(const std::string filename, const double &max) {
+    std::cout << std::endl << std::endl << "Writing image... (Max: " << max << ")" << std::endl;
     FILE *fp = fopen(filename.c_str(), "wb"); /* b - binary mode */
     (void) fprintf(fp, "P3\n%d %d\n255\n", WIDTH, HEIGHT);
     for (auto &row : pixels) {
         for (Pixel &pixel : row) {
             ColorDouble clr = pixel.getColorDouble();
             (void) fprintf(fp, "%d %d %d ",
-                           (int)(255 * (clr.r / max.r)),
-                           (int)(255 * (clr.g / max.g)),
-                           (int)(255 * (clr.b / max.b)));
+                           (int)(255 * (clr.r / max)),
+                           (int)(255 * (clr.g / max)),
+                           (int)(255 * (clr.b / max)));
         }
     }
     (void) fclose(fp);
     std::cout << std::endl << "Wrote image to `" + filename + "`." << std::endl;
 }
 
-Ray Camera::getRayFromPixelCoords(const int w, const int h) {
+Ray Camera::getRayFromPixelCoords(const double w, const double h) {
     CameraPos c = getCamera();
     double aspectRatio = (double)HEIGHT / (double)WIDTH;
-    double pw = (double)w / WIDTH, ph = (double)h / HEIGHT;
+    double pw = w / WIDTH, ph = h / HEIGHT;
     double fovH = fov * aspectRatio;
     double radW = pw * fov - fov / 2, radH = ph * fovH - fovH / 2;
     double diffW = -sin(radW), diffH = -sin(radH);
@@ -144,7 +144,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
-            clr *= scene.getLightContribution(intersection.point, t.getNormal());
+            clr += scene.getLightContribution(intersection.point, t.getNormal());
 
             // decide if we should terminate or not!
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
@@ -160,25 +160,26 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
         Sphere s = sphereIntersection.sphere;
         Surface surface = s.getSurface();
 
-        Ray out = surface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
-        double angle = glm::angle(ray.getDirection(), s.getNormal(sphereIntersection.point));
+        const vec3 &normal = s.getNormal(sphereIntersection.point);
+        Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
+        double angle = glm::angle(out.getDirection(), normal);
 
-        ColorDouble emittance = surface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
+        ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle)
                                 * pow(surface.getReflectionCoefficient(), (double)depth);
-        ray.setColor(emittance);
+        ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
+//        ray.setColor(emittance);
         clr += emittance;
-        clr *= scene.getLightContribution(sphereIntersection.point, s.getNormal(sphereIntersection.point));
+        clr += lightContribution;
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-        if (depth < 5 || uniformRand() < rrTop) {
-///           addRay(out);
+        if (depth < MAX_DEPTH || uniformRand() < rrTop) {
+//            addRay(out);
             int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
             clr += castRay(scene, out, nextDepth);
         }
         break;
     }
-
 
     return clr;
 }

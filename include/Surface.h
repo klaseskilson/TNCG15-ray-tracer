@@ -15,8 +15,6 @@ public:
 
     float getReflectionCoefficient() const;
 
-    int getReflectionModel() const;
-
     const ColorDouble &getColor() const;
 
     ColorDouble reflect(const Ray &in, const Ray &out, const Direction &normal) const;

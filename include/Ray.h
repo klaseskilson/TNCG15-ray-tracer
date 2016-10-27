@@ -13,7 +13,7 @@ public:
     ~Ray() {};
     vec3 getStart() const {return start;};
     vec3 getDirection() const {return direction;};
-    Ray sampleHemisphere(const Ray &outgoing, const vec3 normal) const;
+    Ray sampleHemisphere(const vec3 &position, const vec3 normal) const;
     void setColor(const ColorDouble &color);
 
 private:

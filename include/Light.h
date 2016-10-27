@@ -15,6 +15,6 @@ public:
 
 private:
     std::vector<Triangle> triangles;
-    double lightIntensity = 25.0;
+    double lightIntensity = 2.0;
 };
 #endif //TNCG15_LIGHT_H

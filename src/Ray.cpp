@@ -15,13 +15,15 @@ void Ray::setColor(const ColorDouble &clr) {
     color = clr;
 }
 
-Ray Ray::sampleHemisphere(const Ray &outgoing, const vec3 normal) const{
+Ray Ray::sampleHemisphere(const vec3 &position, const vec3 normal) const{
     double phi = randMinMax(0.0, 2.0 * M_PI);
     double theta = randMinMax(0.0, M_PI / 2.0);
 
-    vec3 d(cos(phi) * sin(theta), sin(phi) * sin(theta), cos(theta));
+    vec3 d(cos(phi) * sin(theta), cos(theta), sin(phi) * sin(theta));
 
     // ensure proper direction
-    d = glm::dot(d, normal) < 0 ? d : -d;
-    return Ray(outgoing.start, d);
+    if (glm::dot(d, normal) <= 0) {
+        d = -d;
+    }
+    return Ray(position, d);
 }
