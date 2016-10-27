@@ -28,7 +28,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     float V = 0.0f;
 
     // positions of the ray
-    glm::vec3 rayStart = glm::normalize(ray.getStart());
+    glm::vec3 rayStart = ray.getStart();
     glm::vec3 direction = glm::normalize(ray.getDirection());
     glm::vec3 endRay = rayStart + direction;
 
