@@ -63,7 +63,7 @@ ColorDouble Camera::castRays(Scene &scene) {
             std::vector<Ray> rays = pixel.getRayList();
             for (Ray r : rays) {
                 for (int i = 0; i < spp; ++i) {
-                    clr += castRay(scene, r, pixel.getColorDouble());
+                    clr += castRay(scene, r);
                 }
             }
             clr /= (double) (spp * subPixels * subPixels);
@@ -115,11 +115,11 @@ void Camera::setFov(float f) {
 }
 
 // TODO: split this mess somehow
-ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth) {
+ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
     // get intersecting triangles in scene
     std::list<TriangleIntersection> intersections = scene.detectIntersections(ray);
     std::list<SphereIntersection> sphereIntersections = scene.detectSphereIntersections(ray);
-    ColorDouble clr(inc);
+    ColorDouble clr(0.0);
     float dTs;
     float dTt;
 
@@ -130,50 +130,51 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int 
     if(!sphereIntersections.size() || (sphereIntersections.size() && intersections.size() && dTs > dTt)) {
         for (TriangleIntersection &intersection : intersections) {
             Triangle t = intersection.triangle;
-            Surface s = t.getSurface();
+            Surface surface = t.getSurface();
 
             //Area light test.
-            if(s.hasReflectionModel(LIGHTSOURCE))  {
-                clr = s.getColor();
+            if(surface.hasReflectionModel(LIGHTSOURCE))  {
+                clr = surface.getColor();
                 break;
             }
 
-            Ray out = s.bounceRay(ray, intersection.point, t.getNormal());
+            Ray out = surface.bounceRay(ray, intersection.point, t.getNormal());
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-            ColorDouble emittance = s.reflect(ray, out, t.getNormal()) * cos(angle) * pow(s.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
             ray.setColor(emittance);
             clr += emittance;
-            clr *= scene.getLightEffects(intersection.point, t.getNormal());
+            clr *= scene.getLightContribution(intersection.point, t.getNormal());
 
             // decide if we should terminate or not!
             double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
             if (depth < MAX_DEPTH || uniformRand() < rrTop) {
     //            addRay(out);
-                int nextDepth = s.hasReflectionModel(SPECULAR) ? depth : depth + 1;
-                clr += castRay(scene, out, clr, nextDepth);
+                int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
+                clr += castRay(scene, out, nextDepth);
             }
             break;
         }
     }
     for(SphereIntersection &sphereIntersection : sphereIntersections) {
         Sphere s = sphereIntersection.sphere;
-        Surface sphereSurface = s.getSurface();
+        Surface surface = s.getSurface();
 
-        Ray out = sphereSurface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
+        Ray out = surface.bounceRay(ray, sphereIntersection.point, s.getNormal(sphereIntersection.point));
         double angle = glm::angle(ray.getDirection(), s.getNormal(sphereIntersection.point));
 
-        ColorDouble emittance = sphereSurface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
-                                * pow(sphereSurface.getReflectionCoefficient(), (double)depth);
+        ColorDouble emittance = surface.reflect(out, ray, s.getNormal(sphereIntersection.point)) * cos(angle)
+                                * pow(surface.getReflectionCoefficient(), (double)depth);
         ray.setColor(emittance);
         clr += emittance;
-        clr *= scene.getLightEffects(sphereIntersection.point, s.getNormal(sphereIntersection.point));
+        clr *= scene.getLightContribution(sphereIntersection.point, s.getNormal(sphereIntersection.point));
 
         // decide if we should terminate or not!
         double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
         if (depth < 5 || uniformRand() < rrTop) {
 ///           addRay(out);
-            clr += castRay(scene, out, clr, depth + 1);
+            int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
+            clr += castRay(scene, out, nextDepth);
         }
         break;
     }

@@ -118,7 +118,7 @@ std::list<SphereIntersection> Scene::detectSphereIntersections(Ray ray) const {
     return intersectingSpheres;
 };
 
-ColorDouble Scene::getLightEffects(const vec3 &point, const vec3 &normal) const {
+ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) const {
     ColorDouble clr(0.0);
     int lightCount = 0;
     double lightArea = 0.0;
@@ -132,7 +132,7 @@ ColorDouble Scene::getLightEffects(const vec3 &point, const vec3 &normal) const 
                 Ray ray(point, glm::normalize(lightPoint - point));
 
                 // light point behind point
-                if (glm::dot(normal, ray.getDirection()) < 0) {
+                if (glm::dot(normal, ray.getDirection()) < 0 || glm::dot(lightTriangle.getNormal(), -ray.getDirection()) < 0) {
                     continue;
                 }
 
@@ -148,10 +148,10 @@ ColorDouble Scene::getLightEffects(const vec3 &point, const vec3 &normal) const 
                 }
 
                 // calc geometric term
-                double alpha = glm::angle(normal, ray.getDirection());
-                double beta = glm::angle(lightTriangle.getNormal(), -ray.getDirection());
+                double alpha = glm::dot(normal, ray.getDirection());
+                double beta = glm::clamp((double)glm::dot(lightTriangle.getNormal(), -ray.getDirection()), 0.0, 1.0);
 
-                double geometric = cos(alpha) * cos(beta) / pow(lightDistance, 2.0);
+                double geometric = alpha * beta / pow(lightDistance, 2.0);
                 clr += lightTriangle.getSurface().getColor() * geometric * light.getLightIntensity();
             }
         }

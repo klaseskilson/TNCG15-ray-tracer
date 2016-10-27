@@ -32,7 +32,7 @@ public:
     void addLight(const Light &l) {
         lights.push_back(l);
     }
-    ColorDouble getLightEffects(const vec3 &point, const vec3 &normal) const;
+    ColorDouble getLightContribution(const vec3 &point, const vec3 &normal) const;
 
 private:
     std::vector<Triangle> triangles;

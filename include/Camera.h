@@ -22,7 +22,7 @@ const CameraPos CAMERA_POS_1 (glm::vec3(0.0f, 2.5f, 0.0f),
 const CameraPos CAMERA_POS_2 (glm::vec3(0.0f, 2.5f, 2.5f),
                               glm::vec3(0.0f, 0.0f, -1.0f));
 
-const int MAX_DEPTH = 3;
+const int MAX_DEPTH = 5;
 
 class Camera {
 public:
@@ -38,7 +38,7 @@ public:
 private:
     void createPixels();
     ColorDouble castRays(Scene&);
-    ColorDouble castRay(Scene &scene, Ray &ray, const ColorDouble &inc, int depth = 0);
+    ColorDouble castRay(Scene &scene, Ray &ray, int depth = 0);
     void writeToFile(const std::string, const ColorDouble&);
 
     CameraPos getCamera();

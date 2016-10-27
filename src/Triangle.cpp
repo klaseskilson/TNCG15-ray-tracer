@@ -84,8 +84,7 @@ vec3 Triangle::getRandomPoint() const {
     double triangleArea = area();
     double a = randMinMax(0.0, 1.0 / triangleArea), b = randMinMax(0.0, 1.0 / triangleArea);
     if (a + b > 1.0) {
-        a /= (a + b);
-        b /= (a + b);
+        return getRandomPoint();
     }
     return fromBarycentric((float) a, (float) b);
 }
