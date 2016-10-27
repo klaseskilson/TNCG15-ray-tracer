@@ -13,7 +13,7 @@ class Surface {
 public:
     Surface(const ColorDouble &color = ColorDouble(0.0), const int &model = LAMBERTIAN) : color(color), reflectionModel(model) {}
 
-    float getReflectionCoefficient() const;
+    double getReflectionCoefficient() const;
 
     const ColorDouble &getColor() const;
 
@@ -27,7 +27,7 @@ public:
 private:
     ColorDouble color;
     int reflectionModel;
-    float reflectionCoefficient = 0.8f;
+    double reflectionCoefficient = 0.8;
 
     // reflection models
     ColorDouble lambertianReflection() const;

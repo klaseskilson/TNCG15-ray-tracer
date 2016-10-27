@@ -141,7 +141,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             Ray out = surface.bounceRay(ray, intersection.point, t.getNormal());
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle) * pow(surface.getReflectionCoefficient(), (double)depth);
+            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle);
             ray.setColor(emittance);
             clr += emittance;
             clr += scene.getLightContribution(intersection.point, t.getNormal());
@@ -151,7 +151,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             if (depth < MAX_DEPTH || uniformRand() < rrTop) {
     //            addRay(out);
                 int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
-                clr += castRay(scene, out, nextDepth);
+                clr += castRay(scene, out, nextDepth) * surface.getReflectionCoefficient();
             }
             break;
         }
@@ -164,8 +164,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
         Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
         double angle = glm::angle(out.getDirection(), normal);
 
-        ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle)
-                                * pow(surface.getReflectionCoefficient(), (double)depth);
+        ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle);
         ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
 //        ray.setColor(emittance);
         clr += emittance;
@@ -176,7 +175,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
         if (depth < MAX_DEPTH || uniformRand() < rrTop) {
 //            addRay(out);
             int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
-            clr += castRay(scene, out, nextDepth);
+            clr += castRay(scene, out, nextDepth) * surface.getReflectionCoefficient();
         }
         break;
     }

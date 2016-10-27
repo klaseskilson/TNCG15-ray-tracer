@@ -20,7 +20,7 @@ ColorDouble Surface::specularReflection() const {
     return color;
 }
 
-float Surface::getReflectionCoefficient() const {
+double Surface::getReflectionCoefficient() const {
     return reflectionCoefficient;
 }
 
