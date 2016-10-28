@@ -54,7 +54,7 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
 
     double T = glm::dot(edge2, Q) * inverted_determinant;
     if (T > EPSILON) {
-        intersection = rayToVertex * (float) T;
+        intersection = rayStart + direction * (float) T;
         return INTERSECTION;
     }
 

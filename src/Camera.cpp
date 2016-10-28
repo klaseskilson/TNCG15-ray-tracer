@@ -102,7 +102,7 @@ Ray Camera::getRayFromPixelCoords(const double w, const double h) {
     double radW = pw * fov - fov / 2, radH = ph * fovH - fovH / 2;
     double diffW = -sin(radW), diffH = -sin(radH);
     glm::vec3 diff(diffW, diffH, 0.0f);
-    glm::vec3 lookAt = c.second + diff;
+    glm::vec3 lookAt = glm::normalize(c.second + diff);
     Ray ray(c.first, lookAt);
     return ray;
 };
@@ -148,8 +148,9 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             }
             double angle = glm::angle(ray.getDirection(), t.getNormal());
 
-            ColorDouble emittance = surface.reflect(ray, out, t.getNormal()) * cos(angle);
+            ColorDouble emittance = surface.reflect(ray, out, t.getNormal());// * cos(angle);
             const ColorDouble &lightContribution = scene.getLightContribution(intersection.point, t.getNormal());
+//            std::cout << glm::to_string(lightContribution) << std::endl;
             clr += emittance;
             clr *= lightContribution;
 

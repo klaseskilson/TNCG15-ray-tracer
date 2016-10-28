@@ -20,7 +20,7 @@ struct SphereIntersection {
     glm::vec3 point;
 };
 
-const int SHADOW_RAY_COUNT = 10;
+const int SHADOW_RAY_COUNT = 20;
 
 static const float INTERSECTION_MARGIN = 0.001f;
 

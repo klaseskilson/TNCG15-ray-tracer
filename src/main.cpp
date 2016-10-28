@@ -6,9 +6,9 @@
 int main() {
     Scene scene;
 
-    Sphere sphere1(glm::vec3(-2.0f, -3.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f), SPECULAR));
+    Sphere sphere1(glm::vec3(-2.0f, 0.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f)));
+    Sphere sphere2(glm::vec3(3.0f, -4.0f, 7.0f), 1.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
     scene.addSphere(sphere1);
-    Sphere sphere2(glm::vec3(3.0f, -3.0f, 7.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
     scene.addSphere(sphere2);
 
     Light areaLight;

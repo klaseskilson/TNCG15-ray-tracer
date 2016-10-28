@@ -123,6 +123,9 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
         for (Triangle lightTriangle : light.getTriangles()) {
             lightArea += lightTriangle.area();
             for (int i = 0; i < SHADOW_RAY_COUNT; ++i) {
+//                if ((clr.r - clr.b) < EPSILON || (clr.r - clr.g) < EPSILON || (clr.g - clr.b) < EPSILON) {
+//                    std::cout << "SHIT";
+//                }
                 ++lightCount;
                 // create shadowrays point -> light
                 vec3 lightPoint = lightTriangle.getRandomPoint();
@@ -158,6 +161,9 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
                 double geometric = alpha * beta / pow(lightDistance, 2.0);
                 Surface lightSurface = lightTriangle.getSurface();
                 clr += lightSurface.getColor() * lightSurface.getEmission() * geometric;
+//                if ((clr.r - clr.b) < EPSILON || (clr.r - clr.g) < EPSILON || (clr.g - clr.b) < EPSILON) {
+//                    std::cout << "SHIT";
+//                }
             }
         }
     }
