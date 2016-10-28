@@ -68,7 +68,8 @@ double Camera::castRays(Scene &scene) {
             }
             clr /= (double) (spp * subPixels * subPixels);
             pixel.setColorDouble(clr);
-            maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
+            if((glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b))) -1) < EPSILON)
+               maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
             count += 1;
         }
     }
