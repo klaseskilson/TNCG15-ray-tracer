@@ -22,7 +22,7 @@ struct SphereIntersection {
 
 const int SHADOW_RAY_COUNT = 2;
 
-static const float INTERSECTION_MARGIN = EPSILON;
+static const float INTERSECTION_MARGIN = 0.001f;
 
 class Scene {
 public:

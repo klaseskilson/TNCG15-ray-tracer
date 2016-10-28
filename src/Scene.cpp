@@ -89,7 +89,7 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) const {
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
             ti.triangle = triangle;
-            ti.point = intersection + 0.0001f*-triangle.getNormal();
+            ti.point = intersection + INTERSECTION_MARGIN * -triangle.getNormal();
             intersections.push_back(ti);
         }
     }
@@ -123,7 +123,6 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
         for (Triangle lightTriangle : light.getTriangles()) {
             lightArea += lightTriangle.area();
             for (int i = 0; i < SHADOW_RAY_COUNT; ++i) {
-
                 ++lightCount;
                 // create shadowrays point -> light
                 vec3 lightPoint = lightTriangle.getRandomPoint();
@@ -133,9 +132,11 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
                 std::list<SphereIntersection> sphereIntersections = detectSphereIntersections(rayTowardsLight);
                 std::list<TriangleIntersection> triangleIntersections = detectIntersections(rayTowardsLight);
                 TriangleIntersection intersection = triangleIntersections.front();
-                double lightDistance = glm::distance(point, lightPoint);
 
-                if (sphereIntersections.size() > 0 || glm::distance(point, intersection.point) < lightDistance) {
+                double lightDistance = glm::distance(point, lightPoint);
+                double intersectionDistance = glm::distance(point, intersection.point);
+
+                if (sphereIntersections.size() > 0 || intersectionDistance < lightDistance) {
                     // not visible!
                     continue;
                 }
