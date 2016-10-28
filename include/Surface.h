@@ -11,11 +11,12 @@ const int LIGHTSOURCE = 2;
 
 class Surface {
 public:
-    Surface(const ColorDouble &color = ColorDouble(0.0), const int &model = LAMBERTIAN) : color(color), reflectionModel(model) {}
+    Surface(const ColorDouble &color = ColorDouble(0.0), const int &model = LAMBERTIAN);
 
     double getReflectionCoefficient() const;
-
     const ColorDouble &getColor() const;
+
+    const ColorDouble &getEmission() const;
 
     ColorDouble reflect(const Ray &in, const Ray &out, const Direction &normal) const;
     Ray bounceRay(const Ray &in, const vec3 &position, const Direction &normal) const;
@@ -28,6 +29,7 @@ private:
     ColorDouble color;
     int reflectionModel = LAMBERTIAN;
     double reflectionCoefficient = 0.8;
+    ColorDouble emission = ColorDouble(0.0);
 
     // reflection models
     ColorDouble lambertianReflection() const;

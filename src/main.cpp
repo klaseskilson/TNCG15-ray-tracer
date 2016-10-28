@@ -6,9 +6,12 @@
 int main() {
     Scene scene;
 
-    Box box(glm::vec3(0.0f, -2.0f, 5.0f), 2);
+    Sphere sphere1(glm::vec3(-2.0f, -3.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f), SPECULAR));
+    scene.addSphere(sphere1);
+    Sphere sphere2(glm::vec3(3.0f, -3.0f, 7.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
+    scene.addSphere(sphere2);
+
     Light areaLight;
-//    scene.importTriangles(box.getTriangles());
     scene.importTriangles(areaLight.getTriangles());
     scene.addLight(areaLight);
 

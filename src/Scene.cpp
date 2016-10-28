@@ -2,8 +2,6 @@
 
 Scene::Scene() {
     createRoom();
-    Sphere sphere(glm::vec3(-2.0f, -3.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
-    spheres.push_back(sphere);
 }
 
 void Scene::createRoom() {
@@ -158,7 +156,8 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
                 double beta = glm::clamp((double) glm::dot(lightTriangle.getNormal(), -rayTowardsLight.getDirection()), 0.0, 1.0);
 
                 double geometric = alpha * beta / pow(lightDistance, 2.0);
-                clr += lightTriangle.getSurface().getColor() * geometric * light.getLightIntensity();
+                Surface lightSurface = lightTriangle.getSurface();
+                clr += lightSurface.getColor() * lightSurface.getEmission() * geometric;
             }
         }
     }

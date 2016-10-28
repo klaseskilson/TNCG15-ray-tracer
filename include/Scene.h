@@ -35,6 +35,9 @@ public:
     void addLight(const Light &l) {
         lights.push_back(l);
     }
+    void addSphere(const Sphere &s) {
+        spheres.push_back(s);
+    }
     ColorDouble getLightContribution(const vec3 &point, const vec3 &normal) const;
 
 private:

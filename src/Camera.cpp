@@ -68,8 +68,8 @@ double Camera::castRays(Scene &scene) {
             }
             clr /= (double) (spp * subPixels * subPixels);
             pixel.setColorDouble(clr);
-            if((glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b))) -1) < EPSILON)
-               maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
+            maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
+//            if((glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b))) -1) < EPSILON)
             count += 1;
         }
     }
@@ -138,7 +138,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
 
             //Area light test.
             if(surface.hasReflectionModel(LIGHTSOURCE))  {
-                clr = surface.getColor();
+                clr = surface.getColor();// * surface.getEmission();
                 break;
             }
 
