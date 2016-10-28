@@ -2,6 +2,7 @@
 #define TNCG15_RAY_H
 
 #include "definitions.h"
+#include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include "utilities.h"
 
@@ -13,6 +14,9 @@ public:
     ~Ray() {};
     vec3 getStart() const {return start;};
     vec3 getDirection() const {return direction;};
+
+    void setDirection(const vec3 &direction);
+
     Ray sampleHemisphere(const vec3 &position, const vec3 normal) const;
     void setColor(const ColorDouble &color);
 

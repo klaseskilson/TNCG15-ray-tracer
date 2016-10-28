@@ -26,7 +26,7 @@ public:
 
 private:
     ColorDouble color;
-    int reflectionModel;
+    int reflectionModel = LAMBERTIAN;
     double reflectionCoefficient = 0.8;
 
     // reflection models

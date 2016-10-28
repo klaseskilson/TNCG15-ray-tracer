@@ -1,10 +1,8 @@
 #include "Scene.h"
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
 
 Scene::Scene() {
     createRoom();
-    Sphere sphere(glm::vec3(-2.0f, 2.0f, 7.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
+    Sphere sphere(glm::vec3(-2.0f, -3.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
     spheres.push_back(sphere);
 }
 
@@ -64,8 +62,8 @@ void Scene::createRoom() {
     triangles.push_back(Triangle(aBottom, aTop, bTop, Purple));
     triangles.push_back(Triangle(aBottom, bTop, bBottom, Purple));
     // Right side front
-    triangles.push_back(Triangle(cBottom, cTop, aTop, Mirror));
-    triangles.push_back(Triangle(cBottom, aTop, aBottom, Mirror));
+    triangles.push_back(Triangle(cBottom, cTop, aTop, Teal));
+    triangles.push_back(Triangle(cBottom, aTop, aBottom, Teal));
     // Right side center
     triangles.push_back(Triangle(eBottom, eTop, cTop, Blue));
     triangles.push_back(Triangle(eBottom, cTop, cBottom, Blue));
@@ -130,27 +128,34 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
                 ++lightCount;
                 // create shadowrays point -> light
                 vec3 lightPoint = lightTriangle.getRandomPoint();
-                Ray ray(point, glm::normalize(lightPoint - point));
+                Ray rayTowardsLight(point, glm::normalize(lightPoint - point));
 
                 // light point behind point
-                if (glm::dot(normal, ray.getDirection()) < 0 || glm::dot(lightTriangle.getNormal(), -ray.getDirection()) < 0) {
+                double dot1 = glm::dot(normal, rayTowardsLight.getDirection());
+                double dot2 = glm::dot(lightTriangle.getNormal(), -rayTowardsLight.getDirection());
+//                std::cout << "1: " << dot1 << " 2: " << dot2 << std::endl;
+                if (dot1 < 0 || dot2 < 0) {
                     continue;
                 }
 
                 // visibility check
-                std::list<SphereIntersection> sphereIntersections = detectSphereIntersections(ray);
-                std::list<TriangleIntersection> triangleIntersections = detectIntersections(ray);
+                std::list<SphereIntersection> sphereIntersections = detectSphereIntersections(rayTowardsLight);
+                std::list<TriangleIntersection> triangleIntersections = detectIntersections(rayTowardsLight);
                 TriangleIntersection intersection = triangleIntersections.front();
-                float lightDistance = glm::distance(point, lightPoint);
+                double lightDistance = glm::distance(point, lightPoint);
 
+//                std::cout << " 1: " << sphereIntersections.size()
+//                          << " 2: " << glm::distance(point, intersection.point)
+//                          << " 3: " << lightDistance
+//                          << std::endl;
                 if (sphereIntersections.size() > 0 || glm::distance(point, intersection.point) < lightDistance) {
                     // not visible!
                     continue;
                 }
 
                 // calc geometric term
-                double alpha = glm::dot(normal, ray.getDirection());
-                double beta = glm::clamp((double) glm::dot(lightTriangle.getNormal(), -ray.getDirection()), 0.0, 1.0);
+                double alpha = glm::dot(normal, rayTowardsLight.getDirection());
+                double beta = glm::clamp((double) glm::dot(lightTriangle.getNormal(), -rayTowardsLight.getDirection()), 0.0, 1.0);
 
                 double geometric = alpha * beta / pow(lightDistance, 2.0);
                 clr += lightTriangle.getSurface().getColor() * geometric * light.getLightIntensity();

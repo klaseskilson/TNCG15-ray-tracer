@@ -16,6 +16,7 @@ Light::Light() {
     triangles.push_back(Triangle(a, c, d, White));
 }
 
+
 const std::vector<Triangle> &Light::getTriangles() const {
     return triangles;
 }

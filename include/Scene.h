@@ -4,6 +4,7 @@
 #include <array>
 #include <list>
 #include <vector>
+#include <glm/gtx/vector_angle.hpp>
 #include "Triangle.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -19,7 +20,7 @@ struct SphereIntersection {
     glm::vec3 point;
 };
 
-const int SHADOW_RAY_COUNT = 3;
+const int SHADOW_RAY_COUNT = 10;
 
 static const float INTERSECTION_MARGIN = 0.001f;
 

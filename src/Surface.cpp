@@ -13,7 +13,7 @@ ColorDouble Surface::reflect(const Ray &in, const Ray &out, const Direction &nor
 }
 
 ColorDouble Surface::lambertianReflection() const {
-    return color * (double)reflectionCoefficient / M_PI;
+    return color * reflectionCoefficient / M_PI;
 }
 
 ColorDouble Surface::specularReflection() const {
