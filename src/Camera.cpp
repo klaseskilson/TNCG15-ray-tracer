@@ -158,28 +158,28 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             }
             break;
         }
-    }
-    for(SphereIntersection &sphereIntersection : sphereIntersections) {
-        Sphere s = sphereIntersection.sphere;
-        Surface surface = s.getSurface();
+    } else {
+        for(SphereIntersection &sphereIntersection : sphereIntersections) {
+            Sphere s = sphereIntersection.sphere;
+            Surface surface = s.getSurface();
 
-        const vec3 &normal = s.getNormal(sphereIntersection.point);
-        Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
-        double angle = glm::angle(out.getDirection(), normal);
+            const vec3 &normal = s.getNormal(sphereIntersection.point);
+            Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
+            double angle = glm::angle(out.getDirection(), normal);
 
-        ColorDouble emittance = surface.reflect(out, ray, normal)  * cos(angle);
-        ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
-        clr += emittance;
-        clr *= lightContribution;
+            ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle);
+            ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
+            clr += emittance;
+            clr *= lightContribution;
 
-        // decide if we should terminate or not!
-        double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
-        if (depth < MAX_DEPTH || uniformRand() < rrTop) {
-            int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
-            clr += castRay(scene, out, nextDepth) * surface.getReflectionCoefficient();
+            // decide if we should terminate or not!
+            double rrTop = glm::max(glm::max(emittance.r, emittance.g), emittance.b);
+            if (depth < MAX_DEPTH || uniformRand() < rrTop) {
+                int nextDepth = surface.hasReflectionModel(SPECULAR) ? depth : depth + 1;
+                clr += castRay(scene, out, nextDepth) * surface.getReflectionCoefficient();
+            }
+            break;
         }
-        break;
-
     }
 
 
