@@ -2,7 +2,7 @@
 
 Surface::Surface(const ColorDouble &color, const int &model) : color(color), reflectionModel(model) {
     if (model == LIGHTSOURCE) {
-        emission = ColorDouble(10.0);
+        emission = ColorDouble(20.0);
     }
 }
 

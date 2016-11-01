@@ -10,7 +10,6 @@ int main() {
     Sphere sphere2(glm::vec3(3.0f, -4.0f, 6.0f), 1.0f, Surface(ColorDouble(0.0f, 0.0f, 0.0f), SPECULAR));
     scene.addSphere(sphere1);
     scene.addSphere(sphere2);
-
     Light areaLight;
     scene.importTriangles(areaLight.getTriangles());
     scene.addLight(areaLight);
@@ -19,7 +18,7 @@ int main() {
     cam.setFov(M_PI / 1.5);
 
     // limit rendering numbers for debugging, comment out for magic result
-    cam.setSpp(5);
+    cam.setSpp(3);
     cam.setSubPixels(2);
 
     cam.createImage(scene);

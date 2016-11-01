@@ -43,10 +43,10 @@ void Scene::createRoom() {
     triangles.push_back(Triangle(dBottom, eBottom, cBottom, White));
     triangles.push_back(Triangle(dBottom, fBottom, eBottom, White));
     // Roof
-    triangles.push_back(Triangle(bTop, aTop, cTop, Grey));
-    triangles.push_back(Triangle(bTop, cTop, dTop, Grey));
-    triangles.push_back(Triangle(dTop, cTop, eTop, Grey));
-    triangles.push_back(Triangle(dTop, eTop, fTop, Grey));
+    triangles.push_back(Triangle(bTop, aTop, cTop, White));
+    triangles.push_back(Triangle(bTop, cTop, dTop, White));
+    triangles.push_back(Triangle(dTop, cTop, eTop, White));
+    triangles.push_back(Triangle(dTop, eTop, fTop, White));
     // Right side back
     triangles.push_back(Triangle(fBottom, fTop, eTop, Blue));
     triangles.push_back(Triangle(fBottom, eTop, eBottom, Blue));
