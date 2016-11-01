@@ -69,11 +69,9 @@ double Camera::castRays(Scene &scene) {
             clr /= (double) (spp * subPixels * subPixels);
             pixel.setColorDouble(clr);
             maximum = glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b)));
-//            if((glm::max(maximum, glm::max(clr.r, glm::max(clr.g, clr.b))) -1) < EPSILON)
             count += 1;
         }
     }
-
     return maximum;
 }
 
@@ -131,26 +129,24 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
         distanceToTriangle = glm::distance(intersections.front().point, ray.getStart());
     }
 
+    if(!sphereIntersections.size() && !intersections.size()) {
+        std::cout << "Poop";
+    }
+
     if(distanceToTriangle < distanceToSphere) {
         for (TriangleIntersection &intersection : intersections) {
             Triangle t = intersection.triangle;
             Surface surface = t.getSurface();
-
             //Area light test.
             if(surface.hasReflectionModel(LIGHTSOURCE))  {
                 clr = surface.getColor();// * surface.getEmission();
                 break;
             }
+            vec3 normal = t.getNormal();
+            Ray out = surface.bounceRay(ray, intersection.point, normal);
 
-            Ray out = surface.bounceRay(ray, intersection.point, t.getNormal());
-            if (glm::dot(out.getDirection(), t.getNormal()) < 0) {
-                out.setDirection(-out.getDirection());
-            }
-            double angle = glm::angle(ray.getDirection(), t.getNormal());
-
-            ColorDouble emittance = surface.reflect(ray, out, t.getNormal());// * cos(angle);
-            const ColorDouble &lightContribution = scene.getLightContribution(intersection.point, t.getNormal());
-//            std::cout << glm::to_string(lightContribution) << std::endl;
+            ColorDouble emittance = surface.reflect(ray, out, normal);// * cos(angle);
+            const ColorDouble &lightContribution = scene.getLightContribution(intersection.point, normal);
             clr += emittance;
             clr *= lightContribution;
 
@@ -171,7 +167,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
         Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
         double angle = glm::angle(out.getDirection(), normal);
 
-        ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle);
+        ColorDouble emittance = surface.reflect(out, ray, normal);
         ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
         clr += emittance;
         clr *= lightContribution;
@@ -183,7 +179,9 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             clr += castRay(scene, out, nextDepth) * surface.getReflectionCoefficient();
         }
         break;
+
     }
+
 
     return clr;
 }

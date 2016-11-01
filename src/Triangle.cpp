@@ -20,10 +20,13 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
     // positions of the ray
     glm::vec3 rayStart = ray.getStart();
     glm::vec3 direction = glm::normalize(ray.getDirection());
+    glm::vec3 pos;
 
     // edges of triangle
     glm::vec3 edge1 = this->edge1();
     glm::vec3 edge2 = this->edge2();
+    float t1 = 10000000.0f;
+
 
     // calculate determinant
     vec3 edgeNormal = glm::cross(direction, edge2);
@@ -53,8 +56,8 @@ int Triangle::intersection(Ray& ray, glm::vec3 &intersection) {
         return NOT_INTERSECTION;
 
     double T = glm::dot(edge2, Q) * inverted_determinant;
-    if (T > EPSILON) {
-        intersection = rayStart + direction * (float) T;
+    if (T > EPSILON && T < t1) {
+        intersection = rayStart + direction * (float)T;
         return INTERSECTION;
     }
 
@@ -80,7 +83,7 @@ vec3 Triangle::getRandomPoint() const {
 
 vec3 Triangle::fromBarycentric(float a, float b) const {
     vec3 pos = (1.0f - a - b) * positions[0] + a * positions[1] + b * positions[2];
-    return pos;
+    return pos + 0.001f*vec3(0.0f, 0.0f, -1.0f);
 }
 
 double Triangle::area() const {

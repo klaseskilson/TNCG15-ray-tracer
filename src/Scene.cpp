@@ -89,7 +89,7 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) const {
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
             ti.triangle = triangle;
-            ti.point = intersection + INTERSECTION_MARGIN * triangle.getNormal();
+            ti.point = intersection + 0.001f*-triangle.getNormal();
             intersections.push_back(ti);
         }
     }
@@ -108,7 +108,7 @@ std::list<SphereIntersection> Scene::detectSphereIntersections(Ray ray) const {
         int result = s.sphereIntersection(ray, intersection);
         if(result == INTERSECTION) {
             si.sphere = s;
-            si.point = intersection + INTERSECTION_MARGIN * s.getNormal(intersection);
+            si.point = intersection;
             intersectingSpheres.push_back(si);
         }
     }
@@ -123,21 +123,11 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
         for (Triangle lightTriangle : light.getTriangles()) {
             lightArea += lightTriangle.area();
             for (int i = 0; i < SHADOW_RAY_COUNT; ++i) {
-//                if ((clr.r - clr.b) < EPSILON || (clr.r - clr.g) < EPSILON || (clr.g - clr.b) < EPSILON) {
-//                    std::cout << "SHIT";
-//                }
+
                 ++lightCount;
                 // create shadowrays point -> light
                 vec3 lightPoint = lightTriangle.getRandomPoint();
                 Ray rayTowardsLight(point, glm::normalize(lightPoint - point));
-
-                // light point behind point
-                double dot1 = glm::dot(normal, rayTowardsLight.getDirection());
-                double dot2 = glm::dot(lightTriangle.getNormal(), -rayTowardsLight.getDirection());
-//                std::cout << "1: " << dot1 << " 2: " << dot2 << std::endl;
-                if (dot1 < 0 || dot2 < 0) {
-                    continue;
-                }
 
                 // visibility check
                 std::list<SphereIntersection> sphereIntersections = detectSphereIntersections(rayTowardsLight);
@@ -145,28 +135,24 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
                 TriangleIntersection intersection = triangleIntersections.front();
                 double lightDistance = glm::distance(point, lightPoint);
 
-//                std::cout << " 1: " << sphereIntersections.size()
-//                          << " 2: " << glm::distance(point, intersection.point)
-//                          << " 3: " << lightDistance
-//                          << std::endl;
                 if (sphereIntersections.size() > 0 || glm::distance(point, intersection.point) < lightDistance) {
                     // not visible!
                     continue;
                 }
 
                 // calc geometric term
-                double alpha = glm::dot(normal, rayTowardsLight.getDirection());
+                double alpha = glm::dot(-normal, rayTowardsLight.getDirection());
                 double beta = glm::clamp((double) glm::dot(lightTriangle.getNormal(), -rayTowardsLight.getDirection()), 0.0, 1.0);
 
                 double geometric = alpha * beta / pow(lightDistance, 2.0);
                 Surface lightSurface = lightTriangle.getSurface();
                 clr += lightSurface.getColor() * lightSurface.getEmission() * geometric;
-//                if ((clr.r - clr.b) < EPSILON || (clr.r - clr.g) < EPSILON || (clr.g - clr.b) < EPSILON) {
-//                    std::cout << "SHIT";
-//                }
             }
         }
     }
+
+
+
 
     return clr * lightArea / (double)lightCount;
 }

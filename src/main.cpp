@@ -6,8 +6,8 @@
 int main() {
     Scene scene;
 
-    Sphere sphere1(glm::vec3(-2.0f, 0.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f)));
-    Sphere sphere2(glm::vec3(3.0f, -4.0f, 7.0f), 1.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
+    Sphere sphere1(glm::vec3(-2.0f, 0.0f, 10.0f), 2.0f, Surface(ColorDouble(0.0f, 1.0f, 0.0f)));
+    Sphere sphere2(glm::vec3(3.0f, -4.0f, 7.0f), 1.0f, Surface(ColorDouble(0.0f, 0.0f, 1.0f)));
     scene.addSphere(sphere1);
     scene.addSphere(sphere2);
 
@@ -19,7 +19,7 @@ int main() {
     cam.setFov(M_PI / 1.5);
 
     // limit rendering numbers for debugging, comment out for magic result
-    cam.setSpp(10);
+    cam.setSpp(5);
     cam.setSubPixels(2);
 
     cam.createImage(scene);

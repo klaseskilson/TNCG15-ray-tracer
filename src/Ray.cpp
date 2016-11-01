@@ -16,19 +16,25 @@ void Ray::setColor(const ColorDouble &clr) {
 }
 
 Ray Ray::sampleHemisphere(const vec3 &position, const vec3 normal) const{
-    float r1 = 2.0 * M_PI * uniformRand();
-    float r2 = uniformRand();
-    float r2squareRoot = sqrt(r2);
-    vec3 u = glm::normalize((fabs(normal.x) > 0.1 ? vec3(0.0, 1.0, 0.0) : glm::cross(vec3(1.0), normal)));
-    vec3 v = glm::cross(normal, u);
-    vec3 d = glm::normalize((u * (float)cos(r1) * r2squareRoot + v * (float)sin(r1) * r2squareRoot + normal * (float)sqrt(1-r2)));
+    double rand1 = uniformRand();
+    double rand2 = uniformRand();
 
-    // ensure proper direction
-    if (glm::dot(d, normal) < 0) {
-        d = -d;
-    }
+    glm::vec3 helper = normal + glm::vec3(1,1,1);
+    glm::vec3 tangent = glm::normalize(glm::cross(normal, helper));
+    float inclination = acos(sqrt(rand1));
+    float azimuth = 2 * M_PI * rand2;
+    // Change the actual vector
+    glm::vec3 random_direction = normal;
+    random_direction = glm::normalize(glm::rotate(
+            random_direction,
+            inclination,
+            tangent));
+    random_direction = glm::normalize(glm::rotate(
+            random_direction,
+            azimuth,
+            normal));
 
-    return Ray(position, d);
+    return Ray(position, random_direction);
 }
 
 void Ray::setDirection(const vec3 &direction) {
