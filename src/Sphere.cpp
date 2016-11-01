@@ -31,6 +31,7 @@ int Sphere::sphereIntersection(Ray& ray, glm::vec3 &intersection) {
 
     bsqrt = glm::sqrt(bsqrt);
    if(d1 <= 0 && d2 <= 0){
+       return NOT_INTERSECTION;
    }
    else if(d2 < d1) {
        intersection = rayOrigin + d2*normalizedRayDirection;
