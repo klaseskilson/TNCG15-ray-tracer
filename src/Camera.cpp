@@ -130,7 +130,8 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
     }
 
     if(!sphereIntersections.size() && !intersections.size()) {
-        std::cout << "Poop" << std::endl;
+        std::cout << "Miss! Ray origin: " << glm::to_string(ray.getStart())
+                  << "Ray direction: " << glm::to_string(ray.getDirection()) << std::endl;
     }
 
     if(distanceToTriangle < distanceToSphere) {
@@ -167,7 +168,7 @@ ColorDouble Camera::castRay(Scene &scene, Ray &ray, int depth) {
             Ray out = surface.bounceRay(ray, sphereIntersection.point, normal);
             double angle = glm::angle(out.getDirection(), normal);
 
-            ColorDouble emittance = surface.reflect(out, ray, normal) * cos(angle);
+            ColorDouble emittance = surface.reflect(out, ray, normal);// * cos(angle);
             ColorDouble lightContribution = scene.getLightContribution(sphereIntersection.point, normal);
             clr += emittance;
             clr *= lightContribution;

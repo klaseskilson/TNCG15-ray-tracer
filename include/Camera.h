@@ -15,13 +15,13 @@
 
 typedef std::pair<glm::vec3, glm::vec3> CameraPos;
 
-const int WIDTH = 300;
-const int HEIGHT = 300;
+const int WIDTH = 400;
+const int HEIGHT = 400;
 
 const CameraPos CAMERA_POS_1 (glm::vec3(0.0f, 0.0f, 0.0f),
                               glm::vec3(0.0f, 0.0f, 1.0f));
 const CameraPos CAMERA_POS_2 (glm::vec3(0.0f, 2.5f, 2.5f),
-                              glm::vec3(0.0f, 0.0f, -1.0f));
+                              glm::vec3(-0.3f, -0.3f, 0.3f));
 
 const int MAX_DEPTH = 5;
 
@@ -49,7 +49,7 @@ private:
     Ray getRayFromPixelCoords(const double w, const double h);
 
     // FOV in radians
-    float fov = ((float) M_PI) / 2.0f;
+    float fov = ((float) M_PI) / 1.5f;
 
     //A bool to flip between the cameras
     bool eyeBeingUsed;
