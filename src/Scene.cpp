@@ -89,7 +89,7 @@ std::list<TriangleIntersection> Scene::detectIntersections(Ray ray) const {
         if (result == INTERSECTION) {
             // intersection found, add it to the list of intersections
             ti.triangle = triangle;
-            ti.point = intersection + INTERSECTION_MARGIN * -triangle.getNormal();
+            ti.point = intersection - INTERSECTION_MARGIN * triangle.getNormal();
             intersections.push_back(ti);
         }
     }
