@@ -108,7 +108,7 @@ std::list<SphereIntersection> Scene::detectSphereIntersections(Ray ray) const {
         int result = s.sphereIntersection(ray, intersection);
         if(result == INTERSECTION) {
             si.sphere = s;
-            si.point = intersection + 0.0001f*s.getNormal(intersection);
+            si.point = intersection + INTERSECTION_MARGIN * s.getNormal(intersection);
             intersectingSpheres.push_back(si);
         }
     }
@@ -151,9 +151,6 @@ ColorDouble Scene::getLightContribution(const vec3 &point, const vec3 &normal) c
             }
         }
     }
-
-
-
 
     return clr * lightArea / (double)lightCount;
 }
